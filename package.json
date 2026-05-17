@@ -1,0 +1,26 @@
+{
+  "name": "base_astro_project",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.9",
+    "@astrojs/mdx": "^5.0.6",
+    "@astrojs/react": "^5.0.5",
+    "@tailwindcss/vite": "^4.1.18",
+    "@types/canvas-confetti": "^1.9.0",
+    "astro": "^6.3.3",
+    "canvas-confetti": "^1.9.4",
+    "lucide-static": "^0.562.0",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "tailwindcss": "^4.1.18",
+    "typescript": "^5.9.3"
+  }
+}
