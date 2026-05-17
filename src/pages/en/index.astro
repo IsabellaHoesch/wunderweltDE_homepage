@@ -4,6 +4,11 @@ import HomePage from '../../components/HomePage.astro';
 import { homeContent } from '../../data/homeContent';
 ---
 
-<Layout content={{ title: 'Vibeperform' }}>
+<Layout
+  content={{
+    title: 'WunderweltDE',
+    description: 'Personalized children\'s books for the big moments in little lives.',
+  }}
+>
   <HomePage content={homeContent.en} currentLocale="en" alternateLocaleHref="/" />
 </Layout>

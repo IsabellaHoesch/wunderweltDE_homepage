@@ -1,6 +1,11 @@
 ---
-import NavBar from './NavBar.astro';
 import type { HomeContent } from '../data/homeContent';
+import heroImage from '../../assets/img_hero.png';
+import butterflyImage from '../../assets/dec_butterfly.png';
+import twigImage from '../../assets/dec_twig.png';
+import branchImage from '../../assets/dec_branch.png';
+import logoLong from '../../assets/Etsy logo (2)/logo_long.png';
+import logoShort from '../../assets/Etsy logo (2)/logo_short.png';
 
 interface Props {
   content: HomeContent;
@@ -9,34 +14,327 @@ interface Props {
 }
 
 const { content, currentLocale, alternateLocaleHref } = Astro.props;
-
-const homeHref = currentLocale === 'de' ? '/' : '/en/';
-
-const links = [
-  { label: content.nav.home, href: homeHref },
-  { label: content.nav.about, href: '#' },
-  { label: content.nav.contact, href: '#' },
-];
+const shopHref = 'https://wunderweltde.etsy.com/';
 ---
 
-<NavBar links={links} homeHref={homeHref} />
+<main class="landing-shell">
+  <section class="hero-section">
+    <header class="site-header">
+      <a href={shopHref} aria-label="WunderweltDE Etsy Shop" class="logo-link">
+        <img src={logoLong.src} width="144" height="144" alt="WunderweltDE" />
+      </a>
+      <a href={alternateLocaleHref} class="language-link">
+        {currentLocale === 'de' ? 'EN' : 'DE'}
+      </a>
+    </header>
 
-<main class="container-responsive section-spacing">
-  <div class="max-w-2xl">
-    <h1 class="text-4xl md:text-5xl font-bold mb-6 tracking-tight text-balance">
-      {content.hero.headline}
-    </h1>
-    <p class="text-xl text-slate-600 mb-8 max-w-lg text-pretty">
-      {content.hero.subheadline}
-    </p>
-    <button class="bg-slate-900 text-white px-8 py-3 rounded-full font-medium hover:bg-slate-800 transition-colors">
-      {content.hero.cta}
-    </button>
-  </div>
-  
-  <div class="mt-12 pt-8 border-t border-slate-200">
-    <a href={alternateLocaleHref} class="text-sm font-medium text-slate-500 hover:text-slate-900 underline underline-offset-4">
-      {currentLocale === 'de' ? 'Switch to English' : 'Wechseln zu Deutsch'}
-    </a>
-  </div>
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <h1>{content.hero.headline}</h1>
+        <p>{content.hero.subheadline}</p>
+        <a class="button-link" href={shopHref}>{content.hero.cta}</a>
+      </div>
+
+      <div class="hero-art" aria-hidden="true">
+        <img class="hero-books" src={heroImage.src} width={heroImage.width} height={heroImage.height} alt="" />
+        <img class="hero-branch" src={branchImage.src} width={branchImage.width} height={branchImage.height} alt="" />
+      </div>
+    </div>
+  </section>
+
+  <section class="notice-section">
+    <img class="notice-butterfly" src={butterflyImage.src} width={butterflyImage.width} height={butterflyImage.height} alt="" aria-hidden="true" />
+    <div class="notice-content">
+      <p>{content.notice.text}</p>
+      <a class="button-link" href={shopHref}>{content.notice.cta}</a>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <img class="footer-twig" src={twigImage.src} width={twigImage.width} height={twigImage.height} alt="" aria-hidden="true" />
+    <div class="footer-center">
+      <img class="footer-logo" src={logoShort.src} width="74" height="74" alt="WunderweltDE" />
+      <p>{content.footer}</p>
+    </div>
+    <img class="footer-butterfly" src={butterflyImage.src} width={butterflyImage.width} height={butterflyImage.height} alt="" aria-hidden="true" />
+  </footer>
 </main>
+
+<style>
+  :global(body) {
+    margin: 0;
+    background: #fffdf8;
+    color: #284b70;
+    font-family: 'Atkinson Hyperlegible', system-ui, sans-serif;
+  }
+
+  :global(a) {
+    color: inherit;
+  }
+
+  .landing-shell {
+    min-height: 100vh;
+    overflow: hidden;
+    background: #fffdf8;
+  }
+
+  .hero-section {
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 1120px;
+    min-height: 502px;
+    margin-inline: auto;
+    padding: 30px clamp(22px, 8vw, 86px) 0;
+  }
+
+  .site-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 62px;
+  }
+
+  .logo-link {
+    display: inline-flex;
+    align-items: center;
+    width: 126px;
+  }
+
+  .logo-link img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .language-link {
+    color: #284b70;
+    font-family: 'Andika', system-ui, sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(280px, 390px) minmax(320px, 1fr);
+    gap: clamp(32px, 10vw, 122px);
+    align-items: center;
+    margin-top: 40px;
+  }
+
+  .hero-copy {
+    max-width: 380px;
+  }
+
+  h1 {
+    margin: 0 0 20px;
+    color: #284b70;
+    font-family: 'Andika', system-ui, sans-serif;
+    font-size: clamp(2rem, 3.1vw, 2.22rem);
+    font-weight: 700;
+    line-height: 1.18;
+  }
+
+  .hero-copy p {
+    margin: 0 0 25px;
+    color: #111827;
+    font-size: clamp(0.96rem, 1.7vw, 1.08rem);
+    line-height: 1.45;
+  }
+
+  .button-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 47px;
+    padding: 0 26px;
+    border-radius: 999px;
+    background: #78a49f;
+    color: #fffdf8;
+    font-family: 'Andika', system-ui, sans-serif;
+    font-size: 1.02rem;
+    font-weight: 400;
+    line-height: 1;
+    text-decoration: none;
+    transition: background-color 160ms ease, transform 160ms ease;
+    white-space: nowrap;
+  }
+
+  .button-link:hover,
+  .button-link:focus-visible {
+    background: #284b70;
+    outline: 3px solid #ffd9e5;
+    outline-offset: 3px;
+    transform: translateY(-1px);
+  }
+
+  .hero-art {
+    position: relative;
+    min-height: 330px;
+  }
+
+  .hero-books {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: min(350px, 80%);
+    height: auto;
+    margin: 0 auto;
+  }
+
+  .hero-branch {
+    position: absolute;
+    right: min(-92px, calc((1120px - 100vw) / 2 - 86px));
+    bottom: -65px;
+    width: min(310px, 58%);
+    height: auto;
+  }
+
+  .notice-section {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: 272px;
+    padding: 44px 24px 50px;
+    background: #eef4fb;
+  }
+
+  .notice-butterfly {
+    position: absolute;
+    left: clamp(42px, 13vw, 126px);
+    top: 30px;
+    width: 82px;
+    height: auto;
+    transform: scaleX(-1);
+  }
+
+  .notice-content {
+    width: min(100%, 520px);
+    text-align: center;
+  }
+
+  .notice-content p {
+    margin: 0 auto 29px;
+    color: #284b70;
+    font-family: 'Andika', system-ui, sans-serif;
+    font-size: clamp(1.05rem, 2vw, 1.25rem);
+    font-weight: 700;
+    line-height: 1.45;
+  }
+
+  .site-footer {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: 193px;
+    padding: 36px 24px 28px;
+  }
+
+  .footer-center {
+    text-align: center;
+  }
+
+  .footer-logo {
+    display: block;
+    width: 56px;
+    height: auto;
+    margin: 0 auto 12px;
+  }
+
+  .footer-center p {
+    margin: 0;
+    color: #284b70;
+    font-size: 1rem;
+  }
+
+  .footer-twig {
+    position: absolute;
+    left: -18px;
+    bottom: -18px;
+    width: 142px;
+    height: auto;
+  }
+
+  .footer-butterfly {
+    position: absolute;
+    right: clamp(40px, 9vw, 116px);
+    top: 56px;
+    width: 48px;
+    height: auto;
+  }
+
+  @media (max-width: 760px) {
+    .hero-section {
+      min-height: auto;
+      padding: 24px 22px 0;
+    }
+
+    .site-header {
+      height: 48px;
+    }
+
+    .logo-link {
+      width: 116px;
+    }
+
+    .hero-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      margin-top: 38px;
+      text-align: left;
+    }
+
+    .hero-copy {
+      max-width: 100%;
+    }
+
+    .hero-copy p {
+      max-width: 32rem;
+    }
+
+    .hero-art {
+      width: 100%;
+      min-height: 235px;
+    }
+
+    .hero-books {
+      width: min(330px, 88%);
+    }
+
+    .hero-branch {
+      right: -86px;
+      bottom: -36px;
+      width: 230px;
+    }
+
+    .notice-section {
+      min-height: 260px;
+      padding-top: 70px;
+    }
+
+    .notice-butterfly {
+      left: 22px;
+      top: 18px;
+      width: 62px;
+    }
+
+    .button-link {
+      width: fit-content;
+      max-width: 100%;
+      white-space: normal;
+      text-align: center;
+    }
+
+    .footer-twig {
+      width: 105px;
+    }
+
+    .footer-butterfly {
+      right: 22px;
+      top: 34px;
+      width: 38px;
+    }
+  }
+</style>

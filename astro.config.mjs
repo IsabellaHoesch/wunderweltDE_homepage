@@ -4,7 +4,8 @@ import react from '@astrojs/react';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
-  site: 'https://www.example.com', // update per deployment
+  site: 'https://IsabellaHoesch.github.io',
+  base: '/wunderweltDE_homepage',
   integrations: [react()],
   i18n: {
     defaultLocale: 'de',
