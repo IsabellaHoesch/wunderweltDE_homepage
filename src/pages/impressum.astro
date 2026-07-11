@@ -1,0 +1,157 @@
+---
+import Layout from '../layouts/main.astro';
+import logoShort from '../../assets/Etsy logo (2)/logo_short.png';
+---
+
+<Layout
+  content={{
+    title: 'Impressum | WunderweltDE',
+    description: 'Impressum von Wunderwelt.kids, einer Marke der Codum GmbH.',
+  }}
+>
+  <main class="legal-page">
+    <header class="legal-header">
+      <a class="legal-logo-link" href="/" aria-label="Zur Startseite">
+        <img src={logoShort.src} width="74" height="74" alt="WunderweltDE" />
+      </a>
+      <h1>Impressum</h1>
+    </header>
+
+    <section class="legal-section" aria-labelledby="brand-heading">
+      <h2 id="brand-heading">Marke</h2>
+      <p>Wunderwelt.kids ist eine Marke der Codum GmbH.</p>
+    </section>
+
+    <section class="legal-section" aria-labelledby="provider-heading">
+      <h2 id="provider-heading">Angaben gemäß § 5 DDG</h2>
+      <p>
+        Codum GmbH<br />
+        Zellerstrasse 29<br />
+        82067 Ebenhausen<br />
+        Deutschland
+      </p>
+    </section>
+
+    <section class="legal-section" aria-labelledby="representative-heading">
+      <h2 id="representative-heading">Vertreten durch</h2>
+      <p>Isabella Hoesch</p>
+    </section>
+
+    <section class="legal-section" aria-labelledby="contact-heading">
+      <h2 id="contact-heading">Kontakt</h2>
+      <p>
+        E-Mail:
+        <a href="mailto:isabella@wunderwelt.kids">isabella@wunderwelt.kids</a>
+      </p>
+    </section>
+
+    <section class="legal-section" aria-labelledby="register-heading">
+      <h2 id="register-heading">Registereintrag</h2>
+      <p>
+        Eintragung im Handelsregister<br />
+        Registergericht: Amtsgericht München<br />
+        Registernummer: HRB 272656
+      </p>
+    </section>
+
+    <section class="legal-section" aria-labelledby="tax-heading">
+      <h2 id="tax-heading">Umsatzsteuer-ID</h2>
+      <p>USt-IdNr.: DE351537139 gemäß § 27a Umsatzsteuergesetz</p>
+    </section>
+
+    <section class="legal-section" aria-labelledby="dispute-heading">
+      <h2 id="dispute-heading">Verbraucherstreitbeilegung</h2>
+      <p>
+        Wir sind nicht verpflichtet und nicht bereit, an Streitbeilegungsverfahren vor einer
+        Verbraucherschlichtungsstelle teilzunehmen.
+      </p>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  :global(body) {
+    margin: 0;
+    background: #fffdf8;
+    color: #284b70;
+    font-family: 'Atkinson Hyperlegible', system-ui, sans-serif;
+  }
+
+  .legal-page {
+    box-sizing: border-box;
+    width: min(100%, 820px);
+    min-height: 100vh;
+    margin-inline: auto;
+    padding: clamp(32px, 7vw, 72px) clamp(22px, 5vw, 40px);
+  }
+
+  .legal-header {
+    margin-bottom: clamp(32px, 6vw, 56px);
+    text-align: center;
+  }
+
+  .legal-logo-link {
+    display: inline-flex;
+    width: 58px;
+    margin-bottom: 16px;
+    color: inherit;
+  }
+
+  .legal-logo-link img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .legal-header p {
+    margin: 0 0 12px;
+    color: #78a49f;
+    font-family: 'Andika', system-ui, sans-serif;
+    font-size: 0.98rem;
+    font-weight: 700;
+  }
+
+  h1,
+  h2 {
+    margin: 0;
+    color: #284b70;
+    font-family: 'Andika', system-ui, sans-serif;
+    line-height: 1.2;
+  }
+
+  h1 {
+    font-size: clamp(2rem, 5vw, 2.75rem);
+  }
+
+  .legal-section {
+    padding: 24px 0;
+    border-top: 1px solid rgba(40, 75, 112, 0.16);
+  }
+
+  .legal-section h2 {
+    margin-bottom: 10px;
+    font-size: 1.12rem;
+  }
+
+  .legal-section p {
+    margin: 0;
+    color: #111827;
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+
+  .legal-section a {
+    color: #284b70;
+    font-weight: 700;
+    text-decoration-color: rgba(120, 164, 159, 0.8);
+    text-underline-offset: 3px;
+  }
+
+  .legal-section a:hover,
+  .legal-section a:focus-visible,
+  .legal-logo-link:focus-visible {
+    color: #78a49f;
+    outline: 3px solid #ffd9e5;
+    outline-offset: 4px;
+  }
+</style>

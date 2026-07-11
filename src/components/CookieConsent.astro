@@ -92,9 +92,23 @@ const copy = isGerman
       }
     };
 
+    const deleteCookie = (name) => {
+      document.cookie = `${name}=; Max-Age=0; path=/; SameSite=Lax`;
+      document.cookie = `${name}=; Max-Age=0; path=/; domain=${window.location.hostname}; SameSite=Lax`;
+    };
+
+    const disableGoogleAnalytics = () => {
+      if (!gaId) return;
+
+      window[`ga-disable-${gaId}`] = true;
+      deleteCookie('_ga');
+      deleteCookie(`_ga_${gaId.replace('G-', '')}`);
+    };
+
     const loadGoogleAnalytics = () => {
       if (!gaId || window.__wunderweltGoogleAnalyticsLoaded) return;
 
+      window[`ga-disable-${gaId}`] = false;
       window.__wunderweltGoogleAnalyticsLoaded = true;
       window.dataLayer = window.dataLayer || [];
       window.gtag = function gtag() {
@@ -126,6 +140,8 @@ const copy = isGerman
 
       if (value === acceptedValue) {
         loadGoogleAnalytics();
+      } else {
+        disableGoogleAnalytics();
       }
     };
 
@@ -140,6 +156,7 @@ const copy = isGerman
       loadGoogleAnalytics();
     } else if (consent === rejectedValue) {
       hideBanner();
+      disableGoogleAnalytics();
     } else {
       showBanner();
     }
