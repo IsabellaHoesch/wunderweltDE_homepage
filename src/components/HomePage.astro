@@ -3,14 +3,16 @@ import type { HomeContent } from '../data/homeContent';
 import heroImage from '../../assets/img_hero.png';
 import butterflyImage from '../../assets/dec_butterfly.png';
 import twigImage from '../../assets/dec_twig.png';
-import branchImage from '../../assets/dec_branch.png';
 import reviewAnnabelPapaImage from '../assets/review-annabel-papa.jpg';
 import reviewBrombeerPapaImage from '../assets/review-brombeer-papa.jpg';
 import reviewSarahKoalaImage from '../assets/review-sarah-koala.jpg';
 import reviewSvenjaPapaImage from '../assets/review-svenja-papa.jpg';
 import logoLong from '../../assets/Etsy logo (2)/logo_long.png';
 import logoShort from '../../assets/Etsy logo (2)/logo_short.png';
+import bookOpenIcon from 'lucide-static/icons/book-open.svg?raw';
+import giftIcon from 'lucide-static/icons/gift.svg?raw';
 import instagramIcon from 'lucide-static/icons/instagram.svg?raw';
+import penLineIcon from 'lucide-static/icons/pen-line.svg?raw';
 
 interface Props {
   content: HomeContent;
@@ -29,6 +31,7 @@ const reviewImages = {
   sarahKoala: reviewSarahKoalaImage,
   svenjaPapa: reviewSvenjaPapaImage,
 };
+const processIcons = [bookOpenIcon, penLineIcon, giftIcon];
 const reviewColumns: Array<typeof content.reviews.items> = [[], [], []];
 content.reviews.items.forEach((review, index) => {
   reviewColumns[index % reviewColumns.length].push(review);
@@ -51,15 +54,35 @@ content.reviews.items.forEach((review, index) => {
         <h1>{content.hero.headline}</h1>
         <p>{content.hero.subheadline}</p>
         <a class="button-link" href={shopHref}>{content.hero.cta}</a>
-        <a class="hero-trust-link" href={reviewsHref} target="_blank" rel="noopener noreferrer">
+      </div>
+
+      <div class="hero-art">
+        <div class="hero-visual" aria-hidden="true">
+          <img class="hero-books" src={heroImage.src} width={heroImage.width} height={heroImage.height} alt="" />
+        </div>
+        <a class="hero-review-link" href={reviewsHref} target="_blank" rel="noopener noreferrer">
           {content.reviews.summary}
         </a>
       </div>
+    </div>
+  </section>
 
-      <div class="hero-art" aria-hidden="true">
-        <img class="hero-books" src={heroImage.src} width={heroImage.width} height={heroImage.height} alt="" />
-        <img class="hero-branch" src={branchImage.src} width={branchImage.width} height={branchImage.height} alt="" />
-      </div>
+  <section class="notice-section">
+    <img class="notice-butterfly" src={butterflyImage.src} width={butterflyImage.width} height={butterflyImage.height} alt="" aria-hidden="true" />
+    <div class="notice-content">
+      <p>{content.notice.text}</p>
+      <ol class="notice-steps" aria-label={content.process.heading}>
+        {content.process.steps.map((step, index) => (
+          <li>
+            <span class="notice-step-icon" aria-hidden="true">
+              <Fragment set:html={processIcons[index]} />
+            </span>
+            <h3>{step.title}</h3>
+            <p>{step.text}</p>
+          </li>
+        ))}
+      </ol>
+      <a class="button-link" href={shopHref}>{content.notice.cta}</a>
     </div>
   </section>
 
@@ -107,14 +130,6 @@ content.reviews.items.forEach((review, index) => {
     </div>
   </section>
 
-  <section class="notice-section">
-    <img class="notice-butterfly" src={butterflyImage.src} width={butterflyImage.width} height={butterflyImage.height} alt="" aria-hidden="true" />
-    <div class="notice-content">
-      <p>{content.notice.text}</p>
-      <a class="button-link" href={shopHref}>{content.notice.cta}</a>
-    </div>
-  </section>
-
   <footer class="site-footer">
     <img class="footer-twig" src={twigImage.src} width={twigImage.width} height={twigImage.height} alt="" aria-hidden="true" />
     <div class="footer-center">
@@ -149,7 +164,7 @@ content.reviews.items.forEach((review, index) => {
 
   .landing-shell {
     min-height: 100vh;
-    overflow: hidden;
+    overflow: visible;
     background: #fffdf8;
   }
 
@@ -161,9 +176,12 @@ content.reviews.items.forEach((review, index) => {
     min-height: 502px;
     margin-inline: auto;
     padding: 30px clamp(22px, 8vw, 86px) 0;
+    overflow: hidden;
   }
 
   .site-header {
+    position: relative;
+    z-index: 2;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -173,7 +191,7 @@ content.reviews.items.forEach((review, index) => {
   .logo-link {
     display: inline-flex;
     align-items: center;
-    width: 126px;
+    width: 151px;
   }
 
   .logo-link img {
@@ -191,6 +209,8 @@ content.reviews.items.forEach((review, index) => {
   }
 
   .hero-grid {
+    position: relative;
+    z-index: 1;
     display: grid;
     grid-template-columns: minmax(280px, 390px) minmax(320px, 1fr);
     gap: clamp(32px, 10vw, 122px);
@@ -244,29 +264,16 @@ content.reviews.items.forEach((review, index) => {
     transform: translateY(-1px);
   }
 
-  .hero-trust-link {
-    display: block;
-    width: fit-content;
-    max-width: 100%;
-    margin-top: 15px;
-    color: #284b70;
-    font-family: 'Andika', system-ui, sans-serif;
-    font-size: 0.9rem;
-    font-weight: 700;
-    line-height: 1.35;
-    text-decoration: none;
-  }
-
-  .hero-trust-link:hover,
-  .hero-trust-link:focus-visible {
-    color: #78a49f;
-    outline: 3px solid #ffd9e5;
-    outline-offset: 4px;
-  }
-
   .hero-art {
     position: relative;
+    display: grid;
+    justify-items: center;
     min-height: 330px;
+  }
+
+  .hero-visual {
+    position: relative;
+    width: 100%;
   }
 
   .hero-books {
@@ -278,12 +285,25 @@ content.reviews.items.forEach((review, index) => {
     margin: 0 auto;
   }
 
-  .hero-branch {
-    position: absolute;
-    right: min(-92px, calc((1120px - 100vw) / 2 - 86px));
-    bottom: -65px;
-    width: min(310px, 58%);
-    height: auto;
+  .hero-review-link {
+    display: block;
+    width: min(350px, 80%);
+    margin-top: 12px;
+    color: #284b70;
+    font-family: 'Andika', system-ui, sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    line-height: 1.35;
+    text-align: left;
+    text-decoration: none;
+    justify-self: center;
+  }
+
+  .hero-review-link:hover,
+  .hero-review-link:focus-visible {
+    color: #78a49f;
+    outline: 3px solid #ffd9e5;
+    outline-offset: 4px;
   }
 
   .reviews-section {
@@ -439,8 +459,8 @@ content.reviews.items.forEach((review, index) => {
     position: relative;
     display: grid;
     place-items: center;
-    min-height: 272px;
-    padding: 44px 24px 50px;
+    min-height: 386px;
+    padding: 54px 24px 58px;
     background: #eef4fb;
   }
 
@@ -454,16 +474,68 @@ content.reviews.items.forEach((review, index) => {
   }
 
   .notice-content {
-    width: min(100%, 520px);
+    width: min(100%, 1040px);
     text-align: center;
   }
 
-  .notice-content p {
+  .notice-content > p {
     margin: 0 auto 29px;
+    width: min(100%, 560px);
     color: #284b70;
     font-family: 'Andika', system-ui, sans-serif;
     font-size: clamp(1.05rem, 2vw, 1.25rem);
     font-weight: 700;
+    line-height: 1.45;
+  }
+
+  .notice-steps {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(18px, 6vw, 70px);
+    margin: 0 0 32px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .notice-steps li {
+    display: grid;
+    justify-items: center;
+    min-width: 0;
+    text-align: center;
+  }
+
+  .notice-step-icon {
+    display: inline-grid;
+    place-items: center;
+    width: 54px;
+    height: 54px;
+    margin-bottom: 17px;
+    border: 1px solid rgba(40, 75, 112, 0.12);
+    border-radius: 999px;
+    background: #fffdf8;
+    color: #78a49f;
+    box-shadow: 0 12px 28px rgba(40, 75, 112, 0.06);
+  }
+
+  .notice-step-icon :global(svg) {
+    width: 25px;
+    height: 25px;
+    stroke-width: 1.9;
+  }
+
+  .notice-steps h3 {
+    margin: 0 0 6px;
+    color: #284b70;
+    font-family: 'Andika', system-ui, sans-serif;
+    font-size: 1.02rem;
+    line-height: 1.25;
+  }
+
+  .notice-steps p {
+    width: min(100%, 280px);
+    margin: 0;
+    color: #111827;
+    font-size: 0.96rem;
     line-height: 1.45;
   }
 
@@ -570,7 +642,7 @@ content.reviews.items.forEach((review, index) => {
     }
 
     .logo-link {
-      width: 116px;
+      width: 139px;
     }
 
     .hero-grid {
@@ -598,15 +670,14 @@ content.reviews.items.forEach((review, index) => {
       width: min(330px, 88%);
     }
 
-    .hero-branch {
-      right: -86px;
-      bottom: -36px;
-      width: 230px;
+    .hero-review-link {
+      width: min(330px, 88%);
+      margin-top: 10px;
     }
 
     .notice-section {
-      min-height: 260px;
-      padding-top: 70px;
+      min-height: auto;
+      padding: 70px 22px 50px;
     }
 
     .notice-butterfly {
@@ -615,16 +686,47 @@ content.reviews.items.forEach((review, index) => {
       width: 62px;
     }
 
+    .notice-content {
+      text-align: left;
+    }
+
+    .notice-content > p {
+      margin-inline: 0;
+    }
+
+    .notice-steps {
+      grid-template-columns: 1fr;
+      gap: 18px;
+      margin-bottom: 30px;
+    }
+
+    .notice-steps li {
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      justify-items: start;
+      text-align: left;
+    }
+
+    .notice-step-icon {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 0;
+    }
+
+    .notice-step-icon :global(svg) {
+      width: 22px;
+      height: 22px;
+    }
+
+    .notice-steps p {
+      width: auto;
+    }
+
     .button-link {
       width: fit-content;
       max-width: 100%;
       white-space: normal;
       text-align: center;
-    }
-
-    .hero-trust-link {
-      width: auto;
-      max-width: 32rem;
     }
 
     .reviews-section {

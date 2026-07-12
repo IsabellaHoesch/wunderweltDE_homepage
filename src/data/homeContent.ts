@@ -8,6 +8,14 @@ interface ContentStrings {
     text: string;
     cta: string;
   };
+  process: {
+    heading: string;
+    subheading: string;
+    steps: Array<{
+      title: string;
+      text: string;
+    }>;
+  };
   reviews: {
     summary: string;
     heading: string;
@@ -38,10 +46,28 @@ export const homeContent: Record<'en' | 'de', ContentStrings> = {
       text: 'Our books are currently only available on Etsy. There you can personalize and order your book.',
       cta: 'Go to Etsy Shop',
     },
+    process: {
+      heading: 'How ordering works',
+      subheading: 'Simple, secure, and personal via our Etsy shop.',
+      steps: [
+        {
+          title: 'Choose a book',
+          text: 'Pick the story that fits your occasion.',
+        },
+        {
+          title: 'Add details',
+          text: 'Enter names and wishes directly on Etsy.',
+        },
+        {
+          title: 'Gift with joy',
+          text: 'We prepare your personalized book with care.',
+        },
+      ],
+    },
     reviews: {
       summary: '★★★★★ 5.0 on Etsy',
       heading: 'What customers say',
-      subheading: 'Real book reviews from our Etsy shop, as of July 2026.',
+      subheading: 'Reviews from our Etsy shop.',
       cta: 'See all reviews on Etsy',
       items: [
         {
@@ -162,10 +188,28 @@ export const homeContent: Record<'en' | 'de', ContentStrings> = {
       text: 'Unsere Bücher sind aktuell nur auf Etsy erhältlich. Dort kannst du dein Buch personalisieren und bestellen.',
       cta: 'Zum Etsy Shop',
     },
+    process: {
+      heading: 'So funktioniert die Bestellung',
+      subheading: 'Einfach, sicher und persönlich über unseren Etsy-Shop.',
+      steps: [
+        {
+          title: 'Buch wählen',
+          text: 'Such die Geschichte aus, die zu deinem Anlass und deinem Kind passt.',
+        },
+        {
+          title: 'Personalisieren',
+          text: 'Namen, Beschreibungen, Widmung und andere Personalisierungsdetailsgibst du direkt bei Etsy an.',
+        },
+        {
+          title: 'Freude schenken',
+          text: 'Wir personalisieren dein Buch und senden es dir nach sorgfältiger Prüfung zu.',
+        },
+      ],
+    },
     reviews: {
       summary: '★★★★★ 5,0 auf Etsy',
       heading: 'Was Kund:innen sagen',
-      subheading: 'Echte Buchbewertungen aus unserem Etsy-Shop, Stand Juli 2026.',
+      subheading: 'Bewertungen aus unserem Etsy-Shop.',
       cta: 'Alle Bewertungen auf Etsy ansehen',
       items: [
         {
