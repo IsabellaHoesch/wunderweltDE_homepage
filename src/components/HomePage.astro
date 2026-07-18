@@ -1,5 +1,6 @@
 ---
 import type { HomeContent } from '../data/homeContent';
+import SiteHeader from './SiteHeader.astro';
 import heroImage from '../../assets/img_hero.png';
 import butterflyImage from '../../assets/dec_butterfly.png';
 import twigImage from '../../assets/dec_twig.png';
@@ -7,7 +8,6 @@ import reviewAnnabelPapaImage from '../assets/review-annabel-papa.jpg';
 import reviewBrombeerPapaImage from '../assets/review-brombeer-papa.jpg';
 import reviewSarahKoalaImage from '../assets/review-sarah-koala.jpg';
 import reviewSvenjaPapaImage from '../assets/review-svenja-papa.jpg';
-import logoLong from '../../assets/Etsy logo (2)/logo_long.png';
 import logoShort from '../../assets/Etsy logo (2)/logo_short.png';
 import bookOpenIcon from 'lucide-static/icons/book-open.svg?raw';
 import giftIcon from 'lucide-static/icons/gift.svg?raw';
@@ -32,6 +32,7 @@ const reviewImages = {
   svenjaPapa: reviewSvenjaPapaImage,
 };
 const processIcons = [bookOpenIcon, penLineIcon, giftIcon];
+const businessHref = currentLocale === 'de' ? '/fuer-unternehmen/' : '/en/for-business/';
 const reviewColumns: Array<typeof content.reviews.items> = [[], [], []];
 content.reviews.items.forEach((review, index) => {
   reviewColumns[index % reviewColumns.length].push(review);
@@ -40,14 +41,13 @@ content.reviews.items.forEach((review, index) => {
 
 <main class="landing-shell">
   <section class="hero-section">
-    <header class="site-header">
-      <a href={shopHref} aria-label="WunderweltDE Etsy Shop" class="logo-link">
-        <img src={logoLong.src} width="144" height="144" alt="WunderweltDE" />
-      </a>
-      <a href={alternateLocaleHref} class="language-link">
-        {currentLocale === 'de' ? 'EN' : 'DE'}
-      </a>
-    </header>
+    <SiteHeader
+      currentLocale={currentLocale}
+      alternateLocaleHref={alternateLocaleHref}
+      businessHref={businessHref}
+      logoHref={shopHref}
+      currentPage="home"
+    />
 
     <div class="hero-grid">
       <div class="hero-copy">
@@ -177,35 +177,6 @@ content.reviews.items.forEach((review, index) => {
     margin-inline: auto;
     padding: 30px clamp(22px, 8vw, 86px) 0;
     overflow: hidden;
-  }
-
-  .site-header {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 62px;
-  }
-
-  .logo-link {
-    display: inline-flex;
-    align-items: center;
-    width: 151px;
-  }
-
-  .logo-link img {
-    display: block;
-    width: 100%;
-    height: auto;
-  }
-
-  .language-link {
-    color: #284b70;
-    font-family: 'Andika', system-ui, sans-serif;
-    font-size: 0.88rem;
-    font-weight: 700;
-    text-decoration: none;
   }
 
   .hero-grid {
@@ -635,14 +606,6 @@ content.reviews.items.forEach((review, index) => {
     .hero-section {
       min-height: auto;
       padding: 24px 22px 0;
-    }
-
-    .site-header {
-      height: 48px;
-    }
-
-    .logo-link {
-      width: 139px;
     }
 
     .hero-grid {

@@ -181,7 +181,7 @@ export const homeContent: Record<'en' | 'de', ContentStrings> = {
     hero: {
       headline: 'Personalisierbare Kinderbücher für die großen Momente im kleinen Leben.',
       subheadline:
-        'Ob zur Geburt, für das Geschwisterkind, oder als Liebeserklärung an den Papa. Entdecke Bücher, die von Herzen kommen.',
+        'Dein Kind und seine Familie werden Teil einer liebevoll illustrierten Geschichte – personalisiert mit Namen, Aussehen und euren persönlichen Details. Zur Geburt · zum Geschwisterwerden · für Mama, Papa, Oma & Opa',
       cta: 'Bücher auf Etsy entdecken',
     },
     notice: {
