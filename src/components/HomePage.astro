@@ -1,7 +1,8 @@
 ---
+import { Picture } from 'astro:assets';
 import type { HomeContent } from '../data/homeContent';
 import SiteHeader from './SiteHeader.astro';
-import heroImage from '../../assets/img_hero.png';
+import heroImage from '../assets/hero-family-reading.png';
 import butterflyImage from '../../assets/dec_butterfly.png';
 import twigImage from '../../assets/dec_twig.png';
 import reviewAnnabelPapaImage from '../assets/review-annabel-papa.jpg';
@@ -32,6 +33,7 @@ const reviewImages = {
   svenjaPapa: reviewSvenjaPapaImage,
 };
 const processIcons = [bookOpenIcon, penLineIcon, giftIcon];
+const homeHref = currentLocale === 'de' ? '/' : '/en/';
 const businessHref = currentLocale === 'de' ? '/fuer-unternehmen/' : '/en/for-business/';
 const reviewColumns: Array<typeof content.reviews.items> = [[], [], []];
 content.reviews.items.forEach((review, index) => {
@@ -45,7 +47,7 @@ content.reviews.items.forEach((review, index) => {
       currentLocale={currentLocale}
       alternateLocaleHref={alternateLocaleHref}
       businessHref={businessHref}
-      logoHref={shopHref}
+      logoHref={homeHref}
       currentPage="home"
     />
 
@@ -57,12 +59,35 @@ content.reviews.items.forEach((review, index) => {
       </div>
 
       <div class="hero-art">
-        <div class="hero-visual" aria-hidden="true">
-          <img class="hero-books" src={heroImage.src} width={heroImage.width} height={heroImage.height} alt="" />
+        <div class="hero-visual">
+          <div class="hero-image-frame">
+            <Picture
+              src={heroImage}
+              formats={['avif', 'webp']}
+              fallbackFormat="jpg"
+              widths={[320, 420, 560, 720, 900]}
+              sizes="(max-width: 760px) calc(100vw - 44px), (max-width: 1160px) 36vw, 420px"
+              loading="eager"
+              fetchpriority="high"
+              decoding="async"
+              class="hero-family-image"
+              alt={content.hero.imageAlt}
+            />
+          </div>
+          <picture aria-hidden="true">
+            <source media="(prefers-reduced-motion: reduce)" srcset="/media/hero-characters-static.webp" />
+            <img
+              class="hero-character-preview"
+              src="/media/hero-characters.gif"
+              width="300"
+              height="300"
+              loading="lazy"
+              fetchpriority="low"
+              decoding="async"
+              alt=""
+            />
+          </picture>
         </div>
-        <a class="hero-review-link" href={reviewsHref} target="_blank" rel="noopener noreferrer">
-          {content.reviews.summary}
-        </a>
       </div>
     </div>
   </section>
@@ -70,6 +95,9 @@ content.reviews.items.forEach((review, index) => {
   <section class="notice-section">
     <img class="notice-butterfly" src={butterflyImage.src} width={butterflyImage.width} height={butterflyImage.height} alt="" aria-hidden="true" />
     <div class="notice-content">
+      <a class="notice-review-link" href={reviewsHref} target="_blank" rel="noopener noreferrer">
+        {content.reviews.summary}
+      </a>
       <p>{content.notice.text}</p>
       <ol class="notice-steps" aria-label={content.process.heading}>
         {content.process.steps.map((step, index) => (
@@ -82,7 +110,6 @@ content.reviews.items.forEach((review, index) => {
           </li>
         ))}
       </ol>
-      <a class="button-link" href={shopHref}>{content.notice.cta}</a>
     </div>
   </section>
 
@@ -163,7 +190,7 @@ content.reviews.items.forEach((review, index) => {
   }
 
   .landing-shell {
-    min-height: 100vh;
+    min-height: 100dvh;
     overflow: visible;
     background: #fffdf8;
   }
@@ -172,10 +199,9 @@ content.reviews.items.forEach((review, index) => {
     position: relative;
     box-sizing: border-box;
     width: 100%;
-    max-width: 1120px;
-    min-height: 502px;
+    max-width: 1160px;
     margin-inline: auto;
-    padding: 30px clamp(22px, 8vw, 86px) 0;
+    padding: 30px clamp(22px, 6vw, 70px) 0;
     overflow: hidden;
   }
 
@@ -183,44 +209,48 @@ content.reviews.items.forEach((review, index) => {
     position: relative;
     z-index: 1;
     display: grid;
-    grid-template-columns: minmax(280px, 390px) minmax(320px, 1fr);
-    gap: clamp(32px, 10vw, 122px);
+    grid-template-columns: minmax(0, 1.08fr) minmax(340px, 0.92fr);
+    gap: clamp(38px, 7vw, 86px);
     align-items: center;
-    margin-top: 40px;
+    min-height: min(620px, calc(100dvh - 92px));
+    padding: 42px 0 58px;
   }
 
   .hero-copy {
-    max-width: 380px;
+    max-width: 510px;
   }
 
   h1 {
-    margin: 0 0 20px;
+    margin: 0 0 22px;
     color: #284b70;
     font-family: 'Andika', system-ui, sans-serif;
-    font-size: clamp(2rem, 3.1vw, 2.22rem);
+    font-size: clamp(2.3rem, 4vw, 2.85rem);
     font-weight: 700;
-    line-height: 1.18;
+    line-height: 1.08;
+    letter-spacing: -0.025em;
   }
 
   .hero-copy p {
-    margin: 0 0 25px;
+    max-width: 48ch;
+    margin: 0 0 28px;
     color: #111827;
-    font-size: clamp(0.96rem, 1.7vw, 1.08rem);
-    line-height: 1.45;
+    font-size: clamp(1rem, 1.5vw, 1.08rem);
+    line-height: 1.6;
   }
 
   .button-link {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-height: 47px;
-    padding: 0 26px;
+    min-height: 49px;
+    box-sizing: border-box;
+    padding: 0 25px;
     border-radius: 999px;
-    background: #78a49f;
+    background: #4f7773;
     color: #fffdf8;
     font-family: 'Andika', system-ui, sans-serif;
-    font-size: 1.02rem;
-    font-weight: 400;
+    font-size: 1rem;
+    font-weight: 700;
     line-height: 1;
     text-decoration: none;
     transition: background-color 160ms ease, transform 160ms ease;
@@ -235,46 +265,50 @@ content.reviews.items.forEach((review, index) => {
     transform: translateY(-1px);
   }
 
+  .button-link:active {
+    transform: scale(0.98);
+  }
+
   .hero-art {
     position: relative;
     display: grid;
-    justify-items: center;
-    min-height: 330px;
+    justify-items: end;
+    align-items: center;
   }
 
   .hero-visual {
     position: relative;
+    width: min(100%, 420px);
+    aspect-ratio: 4 / 5;
+  }
+
+  .hero-image-frame {
     width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 8px;
+    background: #eef4fb;
+    box-shadow: 0 22px 55px rgba(40, 75, 112, 0.13);
   }
 
-  .hero-books {
-    position: relative;
-    z-index: 1;
+  .hero-family-image {
     display: block;
-    width: min(350px, 80%);
-    height: auto;
-    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
   }
 
-  .hero-review-link {
+  .hero-character-preview {
+    position: absolute;
+    z-index: 2;
+    right: -36px;
+    bottom: -26px;
     display: block;
-    width: min(350px, 80%);
-    margin-top: 12px;
-    color: #284b70;
-    font-family: 'Andika', system-ui, sans-serif;
-    font-size: 0.9rem;
-    font-weight: 700;
-    line-height: 1.35;
-    text-align: left;
-    text-decoration: none;
-    justify-self: center;
-  }
-
-  .hero-review-link:hover,
-  .hero-review-link:focus-visible {
-    color: #78a49f;
-    outline: 3px solid #ffd9e5;
-    outline-offset: 4px;
+    width: clamp(112px, 12vw, 142px);
+    aspect-ratio: 1;
+    pointer-events: none;
+    filter: drop-shadow(0 12px 18px rgba(40, 75, 112, 0.15));
   }
 
   .reviews-section {
@@ -449,6 +483,24 @@ content.reviews.items.forEach((review, index) => {
     text-align: center;
   }
 
+  .notice-review-link {
+    display: inline-flex;
+    margin-bottom: 17px;
+    color: #284b70;
+    font-family: 'Andika', system-ui, sans-serif;
+    font-size: 0.94rem;
+    font-weight: 700;
+    line-height: 1.35;
+    text-decoration: none;
+  }
+
+  .notice-review-link:hover,
+  .notice-review-link:focus-visible {
+    color: #4f7773;
+    outline: 3px solid #ffd9e5;
+    outline-offset: 4px;
+  }
+
   .notice-content > p {
     margin: 0 auto 29px;
     width: min(100%, 560px);
@@ -609,11 +661,15 @@ content.reviews.items.forEach((review, index) => {
     }
 
     .hero-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-      margin-top: 38px;
+      grid-template-columns: 1fr;
+      gap: 30px;
+      min-height: auto;
+      padding: 42px 0 54px;
       text-align: left;
+    }
+
+    h1 {
+      font-size: clamp(2.15rem, 10vw, 2.8rem);
     }
 
     .hero-copy {
@@ -626,16 +682,22 @@ content.reviews.items.forEach((review, index) => {
 
     .hero-art {
       width: 100%;
-      min-height: 235px;
+      justify-items: center;
     }
 
-    .hero-books {
-      width: min(330px, 88%);
+    .hero-visual {
+      width: min(100%, 420px);
+      aspect-ratio: 1;
     }
 
-    .hero-review-link {
-      width: min(330px, 88%);
-      margin-top: 10px;
+    .hero-character-preview {
+      right: -6px;
+      bottom: -16px;
+      width: clamp(88px, 27vw, 108px);
+    }
+
+    .hero-family-image {
+      object-position: 50% 18%;
     }
 
     .notice-section {
@@ -651,6 +713,10 @@ content.reviews.items.forEach((review, index) => {
 
     .notice-content {
       text-align: left;
+    }
+
+    .notice-review-link {
+      margin-bottom: 15px;
     }
 
     .notice-content > p {
@@ -688,7 +754,7 @@ content.reviews.items.forEach((review, index) => {
     .button-link {
       width: fit-content;
       max-width: 100%;
-      white-space: normal;
+      white-space: nowrap;
       text-align: center;
     }
 
