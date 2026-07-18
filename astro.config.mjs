@@ -6,6 +6,9 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   site: 'https://www.wunderwelt.kids',
   integrations: [react()],
+  build: {
+    inlineStylesheets: 'always',
+  },
   i18n: {
     defaultLocale: 'de',
     locales: ['en', 'de'],

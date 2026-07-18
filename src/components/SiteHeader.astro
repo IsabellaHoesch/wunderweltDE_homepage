@@ -1,4 +1,5 @@
 ---
+import { Picture } from 'astro:assets';
 import logoLong from '../../assets/Etsy logo (2)/logo_long.png';
 import menuIcon from 'lucide-static/icons/menu.svg?raw';
 import closeIcon from 'lucide-static/icons/x.svg?raw';
@@ -26,7 +27,17 @@ const logoLabel = isGerman ? 'Wunderwelt Startseite' : 'Wunderwelt home page';
 
 <header class="site-header" data-site-header>
   <a href={logoHref} aria-label={logoLabel} class="logo-link">
-    <img src={logoLong.src} width="144" height="144" alt="WunderweltDE" />
+    <Picture
+      src={logoLong}
+      formats={['avif']}
+      fallbackFormat="webp"
+      widths={[139, 151, 278, 302]}
+      sizes="(max-width: 760px) 139px, 151px"
+      quality={65}
+      loading="eager"
+      decoding="async"
+      alt="WunderweltDE"
+    />
   </a>
 
   <div class="header-actions">

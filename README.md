@@ -18,7 +18,7 @@ The project is set up around Astro pages, shared Astro components, React support
 ```text
 /
 ├── public/
-│   └── favicon.svg
+│   └── favicon.png
 ├── src/
 │   ├── assets/
 │   │   ├── astro.svg
@@ -100,7 +100,7 @@ Add global primitives here when they are reused across the site. Prefer componen
 
 Use `src/assets` for source-controlled assets imported by components or pages. Astro can process and optimize these assets when imported.
 
-Use `public` for files that must be copied directly to the final site root without processing, such as `favicon.svg`, robots files, or static downloads.
+Use `public` for files that must be copied directly to the final site root without processing, such as `favicon.png`, robots files, or static downloads.
 
 ## Configuration
 

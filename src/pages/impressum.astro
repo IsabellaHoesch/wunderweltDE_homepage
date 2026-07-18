@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/main.astro';
+import { Picture } from 'astro:assets';
 import logoShort from '../../assets/Etsy logo (2)/logo_short.png';
 ---
 
@@ -12,7 +13,17 @@ import logoShort from '../../assets/Etsy logo (2)/logo_short.png';
   <main class="legal-page">
     <header class="legal-header">
       <a class="legal-logo-link" href="/" aria-label="Zur Startseite">
-        <img src={logoShort.src} width="74" height="74" alt="WunderweltDE" />
+        <Picture
+          src={logoShort}
+          formats={['avif']}
+          fallbackFormat="webp"
+          widths={[74, 148]}
+          sizes="74px"
+          quality={65}
+          loading="eager"
+          decoding="async"
+          alt="WunderweltDE"
+        />
       </a>
       <h1>Impressum</h1>
     </header>

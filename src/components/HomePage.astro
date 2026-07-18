@@ -63,37 +63,55 @@ content.reviews.items.forEach((review, index) => {
           <div class="hero-image-frame">
             <Picture
               src={heroImage}
-              formats={['avif', 'webp']}
-              fallbackFormat="jpg"
+              formats={['avif']}
+              fallbackFormat="webp"
               widths={[320, 420, 560, 720, 900]}
               sizes="(max-width: 760px) calc(100vw - 44px), (max-width: 1160px) 36vw, 420px"
               loading="eager"
               fetchpriority="high"
-              decoding="async"
+              decoding="sync"
+              quality={68}
               class="hero-family-image"
               alt={content.hero.imageAlt}
             />
           </div>
-          <picture aria-hidden="true">
-            <source media="(prefers-reduced-motion: reduce)" srcset="/media/hero-characters-static.webp" />
-            <img
-              class="hero-character-preview"
-              src="/media/hero-characters.gif"
-              width="300"
-              height="300"
-              loading="lazy"
-              fetchpriority="low"
-              decoding="async"
-              alt=""
+          <video
+            class="hero-character-preview"
+            width="240"
+            height="240"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="none"
+            poster="/media/hero-characters-static.webp"
+            aria-hidden="true"
+          >
+            <source
+              src="/media/hero-characters.webm"
+              type="video/webm"
+              media="(prefers-reduced-motion: no-preference)"
             />
-          </picture>
+          </video>
         </div>
       </div>
     </div>
   </section>
 
   <section class="notice-section">
-    <img class="notice-butterfly" src={butterflyImage.src} width={butterflyImage.width} height={butterflyImage.height} alt="" aria-hidden="true" />
+    <Picture
+      src={butterflyImage}
+      formats={['avif']}
+      fallbackFormat="webp"
+      widths={[48, 62, 82, 96, 124, 164]}
+      sizes="(max-width: 760px) 62px, 82px"
+      quality={76}
+      loading="lazy"
+      decoding="async"
+      class="notice-butterfly"
+      alt=""
+      aria-hidden="true"
+    />
     <div class="notice-content">
       <a class="notice-review-link" href={reviewsHref} target="_blank" rel="noopener noreferrer">
         {content.reviews.summary}
@@ -128,13 +146,17 @@ content.reviews.items.forEach((review, index) => {
               {column.map((review) => (
                 <article class="review-card">
                   {review.imageKey && (
-                    <img
+                    <Picture
                       class="review-image"
-                      src={reviewImages[review.imageKey].src}
-                      width={reviewImages[review.imageKey].width}
-                      height={reviewImages[review.imageKey].height}
-                      alt={review.imageAlt}
+                      src={reviewImages[review.imageKey]}
+                      formats={['avif']}
+                      fallbackFormat="webp"
+                      widths={[240, 300]}
+                      sizes="(max-width: 760px) calc(100vw - 88px), 290px"
+                      quality={65}
+                      alt={review.imageAlt ?? ''}
                       loading="lazy"
+                      decoding="async"
                     />
                   )}
                   <div class="review-stars" aria-label={reviewStarsLabel}>★★★★★</div>
@@ -158,9 +180,32 @@ content.reviews.items.forEach((review, index) => {
   </section>
 
   <footer class="site-footer">
-    <img class="footer-twig" src={twigImage.src} width={twigImage.width} height={twigImage.height} alt="" aria-hidden="true" />
+    <Picture
+      src={twigImage}
+      formats={['avif']}
+      fallbackFormat="webp"
+      widths={[105, 142, 210, 284]}
+      sizes="(max-width: 760px) 105px, 142px"
+      quality={60}
+      loading="lazy"
+      decoding="async"
+      class="footer-twig"
+      alt=""
+      aria-hidden="true"
+    />
     <div class="footer-center">
-      <img class="footer-logo" src={logoShort.src} width="74" height="74" alt="WunderweltDE" />
+      <Picture
+        src={logoShort}
+        formats={['avif']}
+        fallbackFormat="webp"
+        widths={[56, 112]}
+        sizes="56px"
+        quality={65}
+        loading="lazy"
+        decoding="async"
+        class="footer-logo"
+        alt="WunderweltDE"
+      />
       <p>{content.footer}</p>
       <nav class="footer-links" aria-label="Footer">
         <div class="footer-legal-links">
@@ -173,7 +218,19 @@ content.reviews.items.forEach((review, index) => {
         </a>
       </nav>
     </div>
-    <img class="footer-butterfly" src={butterflyImage.src} width={butterflyImage.width} height={butterflyImage.height} alt="" aria-hidden="true" />
+    <Picture
+      src={butterflyImage}
+      formats={['avif']}
+      fallbackFormat="webp"
+      widths={[38, 48, 76, 96]}
+      sizes="(max-width: 760px) 38px, 48px"
+      quality={76}
+      loading="lazy"
+      decoding="async"
+      class="footer-butterfly"
+      alt=""
+      aria-hidden="true"
+    />
   </footer>
 </main>
 

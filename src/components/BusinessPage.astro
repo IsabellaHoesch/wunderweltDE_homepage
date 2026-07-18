@@ -1,4 +1,5 @@
 ---
+import { Picture } from 'astro:assets';
 import type { BusinessContent } from '../data/businessContent';
 import SiteHeader from './SiteHeader.astro';
 import wimmelBookImage from '../assets/wimmelbuch-beispiel.png';
@@ -41,11 +42,17 @@ const emailAddress = 'isabella@wunderwelt.kids';
       </div>
 
       <div class="hero-art" aria-hidden="true">
-        <img
+        <Picture
           class="hero-book-image"
-          src={wimmelBookImage.src}
-          width={wimmelBookImage.width}
-          height={wimmelBookImage.height}
+          src={wimmelBookImage}
+          formats={['avif']}
+          fallbackFormat="webp"
+          widths={[360, 480, 640, 800]}
+          sizes="(max-width: 760px) calc(100vw - 44px), 44vw"
+          quality={68}
+          loading="eager"
+          fetchpriority="high"
+          decoding="sync"
           alt=""
         />
       </div>
@@ -59,12 +66,16 @@ const emailAddress = 'isabella@wunderwelt.kids';
         <p>{content.example.text}</p>
       </div>
       <figure class="example-figure">
-        <img
-          src={wimmelBookImage.src}
-          width={wimmelBookImage.width}
-          height={wimmelBookImage.height}
+        <Picture
+          src={wimmelBookImage}
+          formats={['avif']}
+          fallbackFormat="webp"
+          widths={[360, 520, 720, 960, 1040]}
+          sizes="(max-width: 760px) calc(100vw - 24px), 1040px"
+          quality={68}
           alt={content.example.imageAlt}
           loading="lazy"
+          decoding="async"
         />
         <figcaption>{content.example.caption}</figcaption>
       </figure>
@@ -119,11 +130,14 @@ const emailAddress = 'isabella@wunderwelt.kids';
   </section>
 
   <section class="implementation-section" aria-labelledby="implementation-heading">
-    <img
+    <Picture
       class="implementation-twig"
-      src={twigImage.src}
-      width={twigImage.width}
-      height={twigImage.height}
+      src={twigImage}
+      formats={['avif']}
+      fallbackFormat="webp"
+      widths={[190, 230, 330, 460, 660]}
+      sizes="(max-width: 760px) 230px, min(24vw, 330px)"
+      quality={60}
       alt=""
       aria-hidden="true"
       loading="lazy"
@@ -205,7 +219,18 @@ const emailAddress = 'isabella@wunderwelt.kids';
   </section>
 
   <footer class="business-footer">
-    <img class="footer-logo" src={logoShort.src} width="74" height="74" alt="WunderweltDE" />
+    <Picture
+      src={logoShort}
+      formats={['avif']}
+      fallbackFormat="webp"
+      widths={[56, 112]}
+      sizes="56px"
+      quality={65}
+      loading="lazy"
+      decoding="async"
+      class="footer-logo"
+      alt="WunderweltDE"
+    />
     <p>{content.footer}</p>
     <nav class="footer-links" aria-label={isGerman ? 'Footer' : 'Footer navigation'}>
       <div class="legal-links">

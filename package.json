@@ -13,6 +13,8 @@
     "@astrojs/check": "^0.9.9",
     "@astrojs/mdx": "^5.0.6",
     "@astrojs/react": "^5.0.5",
+    "@fontsource/andika": "^5.2.10",
+    "@fontsource/atkinson-hyperlegible": "^5.2.8",
     "@tailwindcss/vite": "^4.1.18",
     "@types/canvas-confetti": "^1.9.0",
     "astro": "^6.3.3",
