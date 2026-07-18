@@ -41,14 +41,13 @@ const emailAddress = 'isabella@wunderwelt.kids';
       </div>
 
       <div class="hero-art" aria-hidden="true">
-        <div class="hero-image-frame">
-          <img
-            src={wimmelBookImage.src}
-            width={wimmelBookImage.width}
-            height={wimmelBookImage.height}
-            alt=""
-          />
-        </div>
+        <img
+          class="hero-book-image"
+          src={wimmelBookImage.src}
+          width={wimmelBookImage.width}
+          height={wimmelBookImage.height}
+          alt=""
+        />
       </div>
     </section>
   </div>
@@ -386,18 +385,7 @@ const emailAddress = 'isabella@wunderwelt.kids';
     align-items: center;
   }
 
-  .hero-image-frame {
-    position: relative;
-    z-index: 1;
-    padding: clamp(12px, 2vw, 20px);
-    border: 1px solid rgba(40, 75, 112, 0.12);
-    border-radius: 8px;
-    background: #eef4fb;
-    box-shadow: 0 22px 55px rgba(40, 75, 112, 0.13);
-    transform: rotate(1.2deg);
-  }
-
-  .hero-image-frame img {
+  .hero-book-image {
     display: block;
     width: 100%;
     height: auto;
@@ -884,11 +872,6 @@ const emailAddress = 'isabella@wunderwelt.kids';
       width: 100%;
     }
 
-    .hero-image-frame {
-      padding: 9px;
-      transform: none;
-    }
-
     .example-section,
     .value-section,
     .formats-section,
@@ -995,8 +978,5 @@ const emailAddress = 'isabella@wunderwelt.kids';
       transition: none;
     }
 
-    .hero-image-frame {
-      transform: none;
-    }
   }
 </style>
