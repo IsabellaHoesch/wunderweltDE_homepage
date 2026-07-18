@@ -1,0 +1,982 @@
+---
+import type { BusinessContent } from '../data/businessContent';
+import SiteHeader from './SiteHeader.astro';
+import wimmelBookImage from '../assets/wimmelbuch-beispiel.png';
+import twigImage from '../../assets/dec_twig.png';
+import logoShort from '../../assets/Etsy logo (2)/logo_short.png';
+import checkIcon from 'lucide-static/icons/check.svg?raw';
+import instagramIcon from 'lucide-static/icons/instagram.svg?raw';
+
+interface Props {
+  content: BusinessContent;
+  currentLocale: 'de' | 'en';
+  alternateLocaleHref: string;
+}
+
+const { content, currentLocale, alternateLocaleHref } = Astro.props;
+const isGerman = currentLocale === 'de';
+const homeHref = isGerman ? '/' : '/en/';
+const businessHref = isGerman ? '/fuer-unternehmen/' : '/en/for-business/';
+const instagramHref = 'https://www.instagram.com/wunderwelt.kids/';
+const emailAddress = 'isabella@wunderwelt.kids';
+---
+
+<main class="business-shell">
+  <div class="business-top">
+    <SiteHeader
+      currentLocale={currentLocale}
+      alternateLocaleHref={alternateLocaleHref}
+      businessHref={businessHref}
+      logoHref={homeHref}
+      currentPage="business"
+    />
+
+    <section class="business-hero" aria-labelledby="business-hero-heading">
+      <div class="hero-copy">
+        <h1 id="business-hero-heading">{content.hero.heading}</h1>
+        <div class="hero-introduction">
+          {content.hero.introduction.map((paragraph) => <p>{paragraph}</p>)}
+        </div>
+        <a class="primary-button" href="#anfrage">{content.hero.cta}</a>
+      </div>
+
+      <div class="hero-art" aria-hidden="true">
+        <img
+          class="hero-book-image"
+          src={wimmelBookImage.src}
+          width={wimmelBookImage.width}
+          height={wimmelBookImage.height}
+          alt=""
+        />
+      </div>
+    </section>
+  </div>
+
+  <section class="example-section" aria-labelledby="example-heading">
+    <div class="section-inner example-inner">
+      <div class="section-copy example-copy">
+        <h2 id="example-heading">{content.example.heading}</h2>
+        <p>{content.example.text}</p>
+      </div>
+      <figure class="example-figure">
+        <img
+          src={wimmelBookImage.src}
+          width={wimmelBookImage.width}
+          height={wimmelBookImage.height}
+          alt={content.example.imageAlt}
+          loading="lazy"
+        />
+        <figcaption>{content.example.caption}</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="value-section" aria-labelledby="value-heading">
+    <div class="section-inner value-inner">
+      <div class="section-copy value-copy">
+        <h2 id="value-heading">{content.value.heading}</h2>
+        {content.value.text.map((paragraph) => <p>{paragraph}</p>)}
+      </div>
+      <ul class="benefit-list">
+        {content.value.benefits.map((benefit) => (
+          <li>
+            <span class="check-icon" aria-hidden="true"><Fragment set:html={checkIcon} /></span>
+            <span>{benefit}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="formats-section" aria-labelledby="formats-heading">
+    <div class="section-inner">
+      <div class="section-copy formats-copy">
+        <h2 id="formats-heading">{content.formats.heading}</h2>
+      </div>
+      <div class="formats-grid">
+        {content.formats.items.map((format, index) => (
+          <article class:list={['format-card', { 'format-card--tinted': index === 0 || index === 3 }]}>
+            <h3>{format.title}</h3>
+            <p>{format.text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="uses-section" aria-labelledby="uses-heading">
+    <div class="section-inner uses-inner">
+      <h2 id="uses-heading">{content.uses.heading}</h2>
+      <ul class="uses-grid">
+        {content.uses.items.map((item) => (
+          <li>
+            <span class="check-icon" aria-hidden="true"><Fragment set:html={checkIcon} /></span>
+            <span>{item}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="implementation-section" aria-labelledby="implementation-heading">
+    <img
+      class="implementation-twig"
+      src={twigImage.src}
+      width={twigImage.width}
+      height={twigImage.height}
+      alt=""
+      aria-hidden="true"
+      loading="lazy"
+    />
+    <div class="section-inner implementation-inner">
+      <h2 id="implementation-heading">{content.implementation.heading}</h2>
+      <div class="implementation-copy">
+        {content.implementation.text.map((paragraph) => <p>{paragraph}</p>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="form-section" id="anfrage" aria-labelledby="form-heading">
+    <div class="section-inner form-layout">
+      <div class="form-introduction">
+        <h2 id="form-heading">{content.form.heading}</h2>
+        {content.form.text.map((paragraph) => <p>{paragraph}</p>)}
+      </div>
+
+      <form
+        class="contact-form"
+        action={`mailto:${emailAddress}`}
+        method="post"
+        enctype="text/plain"
+        data-contact-form
+        data-locale={currentLocale}
+        data-email={emailAddress}
+        data-subject={content.form.subject}
+        data-status-message={content.form.status}
+      >
+        <div class="form-field">
+          <label for="business-name">
+            {content.form.labels.name}
+            <span class="required-label">({content.form.requiredHint})</span>
+          </label>
+          <input id="business-name" name="name" type="text" autocomplete="name" required />
+        </div>
+
+        <div class="form-field">
+          <label for="business-email">
+            {content.form.labels.email}
+            <span class="required-label">({content.form.requiredHint})</span>
+          </label>
+          <input id="business-email" name="email" type="email" autocomplete="email" required />
+        </div>
+
+        <div class="form-field">
+          <label for="business-company">
+            {content.form.labels.company}
+            <span class="required-label">({content.form.requiredHint})</span>
+          </label>
+          <input
+            id="business-company"
+            name="company"
+            type="text"
+            autocomplete="organization"
+            required
+          />
+        </div>
+
+        <div class="form-field">
+          <label for="business-message">{content.form.labels.message}</label>
+          <textarea
+            id="business-message"
+            name="message"
+            rows="6"
+            placeholder={content.form.messagePlaceholder}
+          ></textarea>
+        </div>
+
+        <button class="primary-button form-submit" type="submit">{content.form.cta}</button>
+        <p class="form-status" aria-live="polite" data-form-status></p>
+
+        <div class="trust-line" aria-label={content.form.trust.join(', ')}>
+          {content.form.trust.map((item) => <span>{item}</span>)}
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <footer class="business-footer">
+    <img class="footer-logo" src={logoShort.src} width="74" height="74" alt="WunderweltDE" />
+    <p>{content.footer}</p>
+    <nav class="footer-links" aria-label={isGerman ? 'Footer' : 'Footer navigation'}>
+      <div class="legal-links">
+        <a href="/impressum/" target="_blank" rel="noopener noreferrer">Impressum</a>
+        <span aria-hidden="true">|</span>
+        <a href="/datenschutz/" target="_blank" rel="noopener noreferrer">Datenschutz</a>
+      </div>
+      <a
+        class="social-link"
+        href={instagramHref}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={isGerman ? 'Wunderwelt Kids auf Instagram' : 'Wunderwelt Kids on Instagram'}
+      >
+        <Fragment set:html={instagramIcon} />
+      </a>
+    </nav>
+  </footer>
+</main>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('[data-contact-form]').forEach((form) => {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      if (!form.reportValidity()) return;
+
+      const formData = new FormData(form);
+      const locale = form.dataset.locale || 'de';
+      const labels =
+        locale === 'de'
+          ? { name: 'Name', email: 'E-Mail-Adresse', company: 'Unternehmen', message: 'Nachricht' }
+          : { name: 'Name', email: 'Email address', company: 'Company', message: 'Message' };
+      const body = [
+        `${labels.name}: ${formData.get('name') || ''}`,
+        `${labels.email}: ${formData.get('email') || ''}`,
+        `${labels.company}: ${formData.get('company') || ''}`,
+        '',
+        `${labels.message}:`,
+        String(formData.get('message') || ''),
+      ].join('\n');
+      const subject = form.dataset.subject || '';
+      const email = form.dataset.email || '';
+      const mailto = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      const status = form.querySelector<HTMLElement>('[data-form-status]');
+
+      if (status) status.textContent = form.dataset.statusMessage || '';
+      window.location.href = mailto;
+    });
+  });
+</script>
+
+<style>
+  :global(html) {
+    scroll-behavior: smooth;
+  }
+
+  :global(body) {
+    margin: 0;
+    background: #fffdf8;
+    color: #284b70;
+    font-family: 'Atkinson Hyperlegible', system-ui, sans-serif;
+  }
+
+  :global(a) {
+    color: inherit;
+  }
+
+  .business-shell {
+    min-height: 100vh;
+    overflow: hidden;
+    background: #fffdf8;
+  }
+
+  .business-top {
+    box-sizing: border-box;
+    width: min(100%, 1160px);
+    margin-inline: auto;
+    padding: 30px clamp(22px, 6vw, 70px) 0;
+  }
+
+  .business-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.12fr) minmax(360px, 0.88fr);
+    gap: clamp(38px, 7vw, 86px);
+    align-items: center;
+    min-height: min(620px, calc(100dvh - 92px));
+    padding: 42px 0 58px;
+  }
+
+  .hero-copy {
+    position: relative;
+    z-index: 2;
+    max-width: 510px;
+  }
+
+  h1,
+  h2,
+  h3 {
+    margin: 0;
+    color: #284b70;
+    font-family: 'Andika', system-ui, sans-serif;
+  }
+
+  h1 {
+    margin-bottom: 22px;
+    font-size: clamp(2.3rem, 4vw, 2.85rem);
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+  }
+
+  h2 {
+    margin-bottom: 20px;
+    font-size: clamp(1.85rem, 3.5vw, 2.65rem);
+    line-height: 1.14;
+    letter-spacing: -0.018em;
+  }
+
+  h3 {
+    margin-bottom: 10px;
+    font-size: clamp(1.12rem, 1.8vw, 1.34rem);
+    line-height: 1.25;
+  }
+
+  .hero-introduction {
+    display: grid;
+    gap: 11px;
+    margin-bottom: 28px;
+  }
+
+  .hero-introduction p,
+  .section-copy p,
+  .implementation-copy p,
+  .form-introduction p,
+  .format-card p {
+    margin: 0;
+    color: #111827;
+    font-size: clamp(1rem, 1.5vw, 1.08rem);
+    line-height: 1.6;
+  }
+
+  .primary-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 49px;
+    box-sizing: border-box;
+    padding: 0 25px;
+    border: 0;
+    border-radius: 999px;
+    background: #4f7773;
+    color: #fffdf8;
+    font-family: 'Andika', system-ui, sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 160ms ease, transform 160ms ease;
+  }
+
+  .primary-button:hover,
+  .primary-button:focus-visible {
+    background: #284b70;
+    outline: 3px solid #ffd9e5;
+    outline-offset: 3px;
+    transform: translateY(-1px);
+  }
+
+  .primary-button:active {
+    transform: scale(0.98);
+  }
+
+  .hero-art {
+    position: relative;
+    display: grid;
+    align-items: center;
+  }
+
+  .hero-book-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .section-inner {
+    width: min(100% - 44px, 1040px);
+    margin-inline: auto;
+  }
+
+  .section-copy {
+    max-width: 670px;
+  }
+
+  .example-section,
+  .value-section,
+  .formats-section,
+  .uses-section,
+  .implementation-section,
+  .form-section {
+    padding-block: clamp(66px, 9vw, 106px);
+  }
+
+  .example-section {
+    background: #fff9ed;
+  }
+
+  .example-inner {
+    display: grid;
+    gap: 42px;
+  }
+
+  .example-copy {
+    max-width: 680px;
+  }
+
+  .example-figure {
+    margin: 0;
+  }
+
+  .example-figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    object-fit: contain;
+    filter: drop-shadow(0 18px 30px rgba(40, 75, 112, 0.14));
+  }
+
+  .example-figure figcaption {
+    max-width: 780px;
+    margin: 18px auto 0;
+    color: #496583;
+    font-size: 0.92rem;
+    line-height: 1.5;
+    text-align: center;
+  }
+
+  .value-section {
+    background: #eef4fb;
+  }
+
+  .value-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(320px, 1.1fr);
+    gap: clamp(42px, 8vw, 92px);
+    align-items: start;
+  }
+
+  .value-copy {
+    display: grid;
+    gap: 13px;
+  }
+
+  .value-copy h2 {
+    margin-bottom: 7px;
+  }
+
+  .benefit-list,
+  .uses-grid {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .benefit-list {
+    display: grid;
+    gap: 14px;
+  }
+
+  .benefit-list li {
+    display: grid;
+    grid-template-columns: 34px minmax(0, 1fr);
+    gap: 12px;
+    align-items: center;
+    min-height: 64px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background: rgba(255, 253, 248, 0.74);
+    color: #284b70;
+    font-family: 'Andika', system-ui, sans-serif;
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+
+  .check-icon {
+    display: inline-grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 999px;
+    background: #4f7773;
+    color: #fffdf8;
+    flex: none;
+  }
+
+  .check-icon :global(svg) {
+    width: 17px;
+    height: 17px;
+    stroke-width: 2.3;
+  }
+
+  .formats-section {
+    background: #fffdf8;
+  }
+
+  .formats-copy {
+    margin-bottom: 34px;
+  }
+
+  .formats-grid {
+    display: grid;
+    grid-template-columns: 1.12fr 0.88fr;
+    gap: 18px;
+  }
+
+  .format-card {
+    min-height: 178px;
+    box-sizing: border-box;
+    padding: clamp(24px, 3vw, 34px);
+    border: 1px solid rgba(40, 75, 112, 0.13);
+    border-radius: 8px;
+    background: #fffdf8;
+    box-shadow: 0 15px 36px rgba(40, 75, 112, 0.06);
+  }
+
+  .format-card--tinted {
+    background: #fff9ed;
+  }
+
+  .format-card:nth-child(3),
+  .format-card:nth-child(4) {
+    transform: translateX(42px);
+  }
+
+  .uses-section {
+    background: #fff9ed;
+  }
+
+  .uses-inner h2 {
+    max-width: 570px;
+    margin-bottom: 30px;
+  }
+
+  .uses-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    max-width: 930px;
+  }
+
+  .uses-grid li {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    min-height: 58px;
+    box-sizing: border-box;
+    padding: 10px 15px;
+    border-radius: 8px;
+    background: #fffdf8;
+    color: #111827;
+    font-size: 1rem;
+    line-height: 1.45;
+  }
+
+  .uses-grid li:last-child {
+    grid-column: 2;
+  }
+
+  .uses-grid .check-icon {
+    width: 27px;
+    height: 27px;
+  }
+
+  .implementation-section {
+    position: relative;
+    overflow: hidden;
+    background: #eef4fb;
+  }
+
+  .implementation-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 780px;
+  }
+
+  .implementation-inner h2 {
+    max-width: 650px;
+  }
+
+  .implementation-copy {
+    display: grid;
+    gap: 13px;
+    max-width: 700px;
+  }
+
+  .implementation-twig {
+    position: absolute;
+    right: -62px;
+    bottom: -76px;
+    width: clamp(190px, 24vw, 330px);
+    height: auto;
+    opacity: 0.72;
+    transform: scaleX(-1) rotate(-8deg);
+  }
+
+  .form-section {
+    scroll-margin-top: 24px;
+    background: #fffdf8;
+  }
+
+  .form-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 0.88fr) minmax(390px, 1.12fr);
+    gap: clamp(42px, 8vw, 88px);
+    align-items: start;
+  }
+
+  .form-introduction {
+    display: grid;
+    gap: 13px;
+  }
+
+  .form-introduction h2 {
+    margin-bottom: 7px;
+  }
+
+  .contact-form {
+    display: grid;
+    gap: 20px;
+    box-sizing: border-box;
+    padding: clamp(24px, 4vw, 38px);
+    border: 1px solid rgba(40, 75, 112, 0.14);
+    border-radius: 8px;
+    background: #fff9ed;
+    box-shadow: 0 20px 48px rgba(40, 75, 112, 0.1);
+  }
+
+  .form-field {
+    display: grid;
+    gap: 8px;
+  }
+
+  .form-field label {
+    color: #284b70;
+    font-family: 'Andika', system-ui, sans-serif;
+    font-size: 0.98rem;
+    font-weight: 700;
+    line-height: 1.35;
+  }
+
+  .required-label {
+    color: #496583;
+    font-family: 'Atkinson Hyperlegible', system-ui, sans-serif;
+    font-size: 0.86rem;
+    font-weight: 400;
+  }
+
+  .form-field input,
+  .form-field textarea {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid rgba(40, 75, 112, 0.38);
+    border-radius: 8px;
+    background: #fffdf8;
+    color: #111827;
+    font: inherit;
+    font-size: 1rem;
+    line-height: 1.5;
+    transition: border-color 160ms ease, box-shadow 160ms ease;
+  }
+
+  .form-field input {
+    min-height: 48px;
+    padding: 10px 13px;
+  }
+
+  .form-field textarea {
+    min-height: 156px;
+    padding: 12px 13px;
+    resize: vertical;
+  }
+
+  .form-field textarea::placeholder {
+    color: #5c6d7e;
+    opacity: 1;
+  }
+
+  .form-field input:hover,
+  .form-field textarea:hover {
+    border-color: #78a49f;
+  }
+
+  .form-field input:focus-visible,
+  .form-field textarea:focus-visible {
+    border-color: #284b70;
+    outline: 3px solid #ffd9e5;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 1px #284b70;
+  }
+
+  .form-field input:user-invalid,
+  .form-field textarea:user-invalid {
+    border-color: #a64343;
+  }
+
+  .form-submit {
+    justify-self: start;
+  }
+
+  .form-status {
+    min-height: 1.4em;
+    margin: -8px 0 0;
+    color: #496583;
+    font-size: 0.9rem;
+    line-height: 1.45;
+  }
+
+  .trust-line {
+    display: grid;
+    grid-template-columns: 1fr 1.12fr 1.35fr;
+    padding-top: 17px;
+    border-top: 1px solid rgba(40, 75, 112, 0.14);
+    color: #284b70;
+    font-family: 'Andika', system-ui, sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    line-height: 1.35;
+  }
+
+  .trust-line span {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    padding-inline: 10px;
+  }
+
+  .trust-line span:first-child {
+    padding-left: 0;
+  }
+
+  .trust-line span:not(:first-child) {
+    border-left: 1px solid rgba(40, 75, 112, 0.3);
+  }
+
+  .business-footer {
+    display: grid;
+    justify-items: center;
+    min-height: 210px;
+    box-sizing: border-box;
+    padding: 38px 24px 30px;
+    background: #fff9ed;
+    text-align: center;
+  }
+
+  .footer-logo {
+    display: block;
+    width: 56px;
+    height: auto;
+    margin-bottom: 12px;
+  }
+
+  .business-footer p {
+    margin: 0;
+    color: #284b70;
+    font-size: 1rem;
+  }
+
+  .footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+    margin-top: 16px;
+    color: #284b70;
+    font-family: 'Andika', system-ui, sans-serif;
+    font-size: 0.92rem;
+    font-weight: 700;
+  }
+
+  .legal-links {
+    display: inline-flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .footer-links a {
+    display: inline-flex;
+    align-items: center;
+    color: inherit;
+    text-decoration: none;
+    transition: color 160ms ease, transform 160ms ease;
+  }
+
+  .footer-links a:hover,
+  .footer-links a:focus-visible {
+    color: #78a49f;
+    outline: 3px solid #ffd9e5;
+    outline-offset: 4px;
+    transform: translateY(-1px);
+  }
+
+  .social-link {
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border: 1px solid rgba(40, 75, 112, 0.24);
+    border-radius: 999px;
+    background: #fffdf8;
+  }
+
+  .social-link :global(svg) {
+    width: 18px;
+    height: 18px;
+    stroke-width: 2;
+  }
+
+  @media (max-width: 900px) {
+    .business-hero {
+      grid-template-columns: minmax(0, 1fr) minmax(310px, 0.82fr);
+      gap: 32px;
+    }
+
+    h1 {
+      font-size: clamp(2.2rem, 5vw, 3rem);
+    }
+
+    .format-card:nth-child(3),
+    .format-card:nth-child(4) {
+      transform: none;
+    }
+  }
+
+  @media (max-width: 760px) {
+    :global(html) {
+      scroll-behavior: auto;
+    }
+
+    .business-top {
+      padding: 24px 22px 0;
+    }
+
+    .business-hero {
+      grid-template-columns: 1fr;
+      gap: 34px;
+      min-height: auto;
+      padding: 50px 0 70px;
+    }
+
+    h1 {
+      font-size: clamp(2.15rem, 10vw, 2.8rem);
+    }
+
+    h2 {
+      font-size: clamp(1.75rem, 8vw, 2.3rem);
+    }
+
+    .hero-copy {
+      max-width: 100%;
+    }
+
+    .hero-art {
+      width: 100%;
+    }
+
+    .example-section,
+    .value-section,
+    .formats-section,
+    .uses-section,
+    .implementation-section,
+    .form-section {
+      padding-block: 68px;
+    }
+
+    .section-inner {
+      width: min(100% - 44px, 1040px);
+    }
+
+    .example-inner {
+      gap: 30px;
+    }
+
+    .example-figure {
+      width: calc(100% + 20px);
+      margin-left: -10px;
+    }
+
+    .example-figure figcaption {
+      padding-inline: 10px;
+      text-align: left;
+    }
+
+    .value-inner,
+    .form-layout {
+      grid-template-columns: 1fr;
+      gap: 36px;
+    }
+
+    .formats-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .format-card {
+      min-height: auto;
+    }
+
+    .uses-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .uses-grid li:last-child {
+      grid-column: auto;
+    }
+
+    .implementation-inner {
+      padding-right: 34px;
+    }
+
+    .implementation-twig {
+      right: -96px;
+      width: 230px;
+      opacity: 0.52;
+    }
+
+    .contact-form {
+      padding: 24px 20px;
+    }
+
+    .form-submit {
+      width: 100%;
+      min-height: 52px;
+      padding-inline: 16px;
+      white-space: normal;
+    }
+
+    .trust-line {
+      display: grid;
+      gap: 8px;
+      grid-template-columns: 1fr;
+    }
+
+    .trust-line span {
+      padding-inline: 0;
+    }
+
+    .trust-line span:not(:first-child) {
+      border-left: 0;
+    }
+  }
+
+  @media (max-width: 380px) {
+    .primary-button {
+      width: 100%;
+      padding-inline: 14px;
+      font-size: 0.94rem;
+      white-space: normal;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(html) {
+      scroll-behavior: auto;
+    }
+
+    .primary-button,
+    .form-field input,
+    .form-field textarea,
+    .footer-links a {
+      transition: none;
+    }
+
+  }
+</style>

@@ -3,10 +3,10 @@ interface ContentStrings {
     headline: string;
     subheadline: string;
     cta: string;
+    imageAlt: string;
   };
   notice: {
     text: string;
-    cta: string;
   };
   process: {
     heading: string;
@@ -37,14 +37,15 @@ interface ContentStrings {
 export const homeContent: Record<'en' | 'de', ContentStrings> = {
   en: {
     hero: {
-      headline: 'Personalized children\'s books for the big moments in little lives.',
+      headline: 'Your child. Your family’s story.',
       subheadline:
-        'Whether for a birth, a sibling, or a declaration of love for dad. Discover books that come from the heart.',
+        'A lovingly illustrated children’s book, personalized with names, appearances, and the details that make your family unique.',
       cta: 'Discover books on Etsy',
+      imageAlt:
+        'A mother holds her child and a personalized Wunderwelt children’s book with the name Leander.',
     },
     notice: {
       text: 'Our books are currently only available on Etsy. There you can personalize and order your book.',
-      cta: 'Go to Etsy Shop',
     },
     process: {
       heading: 'How ordering works',
@@ -179,14 +180,15 @@ export const homeContent: Record<'en' | 'de', ContentStrings> = {
   },
   de: {
     hero: {
-      headline: 'Personalisierbare Kinderbücher für die großen Momente im kleinen Leben.',
+      headline: 'Dein Kind. Eure Geschichte.',
       subheadline:
-        'Ob zur Geburt, für das Geschwisterkind, oder als Liebeserklärung an den Papa. Entdecke Bücher, die von Herzen kommen.',
+        'Von der Natur inspiriert – personalisiert für die besonderen Momente im Leben deines Kindes: zur Geburt, zum Geschwisterwerden oder als Liebeserklärung an einen Herzensmenschen.',
       cta: 'Bücher auf Etsy entdecken',
+      imageAlt:
+        'Mutter hält ihr Kind und ein personalisiertes Wunderwelt-Kinderbuch mit dem Namen Leander.',
     },
     notice: {
       text: 'Unsere Bücher sind aktuell nur auf Etsy erhältlich. Dort kannst du dein Buch personalisieren und bestellen.',
-      cta: 'Zum Etsy Shop',
     },
     process: {
       heading: 'So funktioniert die Bestellung',

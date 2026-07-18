@@ -174,6 +174,12 @@ npm run check
 
 The production build is written to `dist/`. That folder is generated output and should not be edited directly.
 
+## Business enquiry form
+
+The forms on `/fuer-unternehmen/` and `/en/for-business/` use the website's existing email contact process. After native required-field and email validation, the visitor's email application opens with a prepared message to `isabella@wunderwelt.kids`.
+
+No form submission service or API credentials are configured in this repository. For direct server-side delivery without opening an email application, connect the form to a privacy-compliant form endpoint and update the privacy notice before deployment.
+
 ## How To Use This Template
 
 1. Update project metadata in `package.json`.
