@@ -9,6 +9,11 @@ import reviewAnnabelPapaImage from '../assets/review-annabel-papa.jpg';
 import reviewBrombeerPapaImage from '../assets/review-brombeer-papa.jpg';
 import reviewSarahKoalaImage from '../assets/review-sarah-koala.jpg';
 import reviewSvenjaPapaImage from '../assets/review-svenja-papa.jpg';
+import bestseller1Image from '../assets/bestsellers/bestseller-1.png';
+import bestseller2Image from '../assets/bestsellers/bestseller-2.png';
+import bestseller3Image from '../assets/bestsellers/bestseller-3.png';
+import bestseller4Image from '../assets/bestsellers/bestseller-4.png';
+import bestseller5Image from '../assets/bestsellers/bestseller-5.png';
 import logoShort from '../../assets/Etsy logo (2)/logo_short.png';
 import bookOpenIcon from 'lucide-static/icons/book-open.svg?raw';
 import giftIcon from 'lucide-static/icons/gift.svg?raw';
@@ -39,6 +44,33 @@ const reviewColumns: Array<typeof content.reviews.items> = [[], [], []];
 content.reviews.items.forEach((review, index) => {
   reviewColumns[index % reviewColumns.length].push(review);
 });
+const bestsellerProducts = [
+  {
+    image: bestseller1Image,
+    href:
+      'https://wunderweltkidsde.etsy.com/listing/4557897004?utm_source=website&utm_medium=referral&utm_campaign=bestseller&utm_content=produkt-1',
+  },
+  {
+    image: bestseller2Image,
+    href:
+      'https://wunderweltkidsde.etsy.com/listing/4558200497?utm_source=website&utm_medium=referral&utm_campaign=bestseller&utm_content=produkt-2',
+  },
+  {
+    image: bestseller3Image,
+    href:
+      'https://wunderweltkidsde.etsy.com/listing/4484785771?utm_source=website&utm_medium=referral&utm_campaign=bestseller&utm_content=produkt-3',
+  },
+  {
+    image: bestseller4Image,
+    href:
+      'https://wunderweltkidsde.etsy.com/listing/4464543440?utm_source=website&utm_medium=referral&utm_campaign=bestseller&utm_content=produkt-4',
+  },
+  {
+    image: bestseller5Image,
+    href:
+      'https://wunderweltkidsde.etsy.com/listing/4491044809?utm_source=website&utm_medium=referral&utm_campaign=bestseller&utm_content=produkt-5',
+  },
+];
 ---
 
 <main class="landing-shell">
@@ -128,6 +160,39 @@ content.reviews.items.forEach((review, index) => {
           </li>
         ))}
       </ol>
+    </div>
+  </section>
+
+  <section class="bestsellers-section" aria-labelledby="bestsellers-heading">
+    <div class="bestsellers-inner">
+      <div class="bestsellers-header">
+        <h2 id="bestsellers-heading">{content.bestsellers.heading}</h2>
+      </div>
+
+      <div class="bestsellers-grid">
+        {bestsellerProducts.map((product, index) => (
+          <a
+            class="bestseller-link"
+            href={product.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={content.bestsellers.items[index].linkLabel}
+          >
+            <Picture
+              src={product.image}
+              formats={['avif']}
+              fallbackFormat="webp"
+              widths={[320, 480, 640, 800]}
+              sizes="(max-width: 760px) calc(100vw - 44px), (max-width: 1020px) calc(50vw - 48px), 200px"
+              quality={72}
+              loading="lazy"
+              decoding="async"
+              class="bestseller-image"
+              alt={content.bestsellers.items[index].imageAlt}
+            />
+          </a>
+        ))}
+      </div>
     </div>
   </section>
 
@@ -314,10 +379,14 @@ content.reviews.items.forEach((review, index) => {
     white-space: nowrap;
   }
 
-  .button-link:hover,
+  .button-link:hover {
+    background: #284b70;
+    transform: translateY(-1px);
+  }
+
   .button-link:focus-visible {
     background: #284b70;
-    outline: 3px solid #ffd9e5;
+    outline: 3px solid #78a49f;
     outline-offset: 3px;
     transform: translateY(-1px);
   }
@@ -366,6 +435,67 @@ content.reviews.items.forEach((review, index) => {
     aspect-ratio: 1;
     pointer-events: none;
     filter: drop-shadow(0 12px 18px rgba(40, 75, 112, 0.15));
+  }
+
+  .bestsellers-section {
+    padding: clamp(48px, 7vw, 76px) clamp(22px, 5vw, 40px);
+    background: #fffdf8;
+  }
+
+  .bestsellers-inner {
+    width: min(100%, 900px);
+    margin-inline: auto;
+  }
+
+  .bestsellers-header {
+    width: min(100%, 620px);
+    margin: 0 auto 30px;
+    text-align: center;
+  }
+
+  .bestsellers-header h2 {
+    margin: 0;
+    color: #284b70;
+    font-family: 'Andika', system-ui, sans-serif;
+    font-size: clamp(1.55rem, 3vw, 2rem);
+    line-height: 1.18;
+  }
+
+  .bestsellers-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: clamp(10px, 1.4vw, 14px);
+  }
+
+  .bestseller-link {
+    display: block;
+    overflow: hidden;
+    border: 1px solid rgba(40, 75, 112, 0.12);
+    border-radius: 8px;
+    background: #eef4fb;
+    box-shadow: 0 14px 34px rgba(40, 75, 112, 0.08);
+    text-decoration: none;
+    transition: box-shadow 160ms ease, transform 160ms ease;
+  }
+
+  .bestseller-link:hover,
+  .bestseller-link:focus-visible {
+    box-shadow: 0 18px 38px rgba(40, 75, 112, 0.16);
+    outline: 3px solid #78a49f;
+    outline-offset: 4px;
+    transform: translateY(-3px);
+  }
+
+  .bestseller-link:active {
+    transform: scale(0.98);
+  }
+
+  .bestseller-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
   }
 
   .reviews-section {
@@ -434,7 +564,7 @@ content.reviews.items.forEach((review, index) => {
   }
 
   .review-scroller:focus-visible {
-    outline: 3px solid #ffd9e5;
+    outline: 3px solid #78a49f;
     outline-offset: 6px;
   }
 
@@ -512,7 +642,7 @@ content.reviews.items.forEach((review, index) => {
   .reviews-link:hover,
   .reviews-link:focus-visible {
     background: #78a49f;
-    outline: 3px solid #ffd9e5;
+    outline: 3px solid #78a49f;
     outline-offset: 3px;
     transform: translateY(-1px);
   }
@@ -554,7 +684,7 @@ content.reviews.items.forEach((review, index) => {
   .notice-review-link:hover,
   .notice-review-link:focus-visible {
     color: #4f7773;
-    outline: 3px solid #ffd9e5;
+    outline: 3px solid #78a49f;
     outline-offset: 4px;
   }
 
@@ -675,7 +805,7 @@ content.reviews.items.forEach((review, index) => {
   .footer-links a:hover,
   .footer-links a:focus-visible {
     color: #78a49f;
-    outline: 3px solid #ffd9e5;
+    outline: 3px solid #78a49f;
     outline-offset: 4px;
     transform: translateY(-1px);
   }
@@ -808,6 +938,20 @@ content.reviews.items.forEach((review, index) => {
       width: auto;
     }
 
+    .bestsellers-section {
+      padding: 46px 22px;
+    }
+
+    .bestsellers-header {
+      margin-inline: 0;
+      text-align: left;
+    }
+
+    .bestsellers-grid {
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
     .button-link {
       width: fit-content;
       max-width: 100%;
@@ -861,6 +1005,12 @@ content.reviews.items.forEach((review, index) => {
       right: 22px;
       top: 34px;
       width: 38px;
+    }
+  }
+
+  @media (min-width: 761px) and (max-width: 900px) {
+    .bestsellers-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 </style>

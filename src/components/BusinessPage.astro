@@ -1,11 +1,16 @@
 ---
 import { Picture } from 'astro:assets';
 import type { BusinessContent } from '../data/businessContent';
+import BusinessBookAnimation from './BusinessBookAnimation.astro';
 import SiteHeader from './SiteHeader.astro';
-import wimmelBookImage from '../assets/wimmelbuch-beispiel.png';
-import twigImage from '../../assets/dec_twig.png';
+import customSeekAndFindImage from '../assets/business-formats/custom-seek-and-find.png';
+import originalBrandStoryImage from '../assets/business-formats/original-brand-story.png';
+import smallGiftFormatsImage from '../assets/business-formats/malheft-dummy.jpeg';
+import implementationBriefingImage from '../assets/business-illustrations/implementation-briefing.png';
+import implementationStyleImage from '../assets/business-illustrations/implementation-style.png';
+import implementationResultImage from '../assets/business-illustrations/implementation-result.png';
+import wimmelbuchExampleImage from '../assets/wimmelbuch-hero-transparent.png';
 import logoShort from '../../assets/Etsy logo (2)/logo_short.png';
-import checkIcon from 'lucide-static/icons/check.svg?raw';
 import instagramIcon from 'lucide-static/icons/instagram.svg?raw';
 
 interface Props {
@@ -20,6 +25,12 @@ const homeHref = isGerman ? '/' : '/en/';
 const businessHref = isGerman ? '/fuer-unternehmen/' : '/en/for-business/';
 const instagramHref = 'https://www.instagram.com/wunderwelt.kids/';
 const emailAddress = 'isabella@wunderwelt.kids';
+const formatVisuals = [customSeekAndFindImage, originalBrandStoryImage, smallGiftFormatsImage];
+const implementationVisuals = {
+  briefing: implementationBriefingImage,
+  style: implementationStyleImage,
+  result: implementationResultImage,
+};
 ---
 
 <main class="business-shell">
@@ -40,64 +51,31 @@ const emailAddress = 'isabella@wunderwelt.kids';
         </div>
         <a class="primary-button" href="#anfrage">{content.hero.cta}</a>
       </div>
-
-      <div class="hero-art" aria-hidden="true">
+      <figure class="hero-art">
         <Picture
           class="hero-book-image"
-          src={wimmelBookImage}
+          src={wimmelbuchExampleImage}
           formats={['avif']}
           fallbackFormat="webp"
-          widths={[360, 480, 640, 800]}
-          sizes="(max-width: 760px) calc(100vw - 44px), 44vw"
-          quality={68}
+          widths={[520, 720, 960, 1200]}
+          sizes="(max-width: 900px) calc(100vw - 44px), 46vw"
+          quality={78}
+          alt={content.hero.imageAlt}
           loading="eager"
-          fetchpriority="high"
-          decoding="sync"
-          alt=""
+          decoding="async"
         />
-      </div>
+      </figure>
     </section>
   </div>
 
-  <section class="example-section" aria-labelledby="example-heading">
-    <div class="section-inner example-inner">
-      <div class="section-copy example-copy">
-        <h2 id="example-heading">{content.example.heading}</h2>
-        <p>{content.example.text}</p>
-      </div>
-      <figure class="example-figure">
-        <Picture
-          src={wimmelBookImage}
-          formats={['avif']}
-          fallbackFormat="webp"
-          widths={[360, 520, 720, 960, 1040]}
-          sizes="(max-width: 760px) calc(100vw - 24px), 1040px"
-          quality={68}
-          alt={content.example.imageAlt}
-          loading="lazy"
-          decoding="async"
-        />
-        <figcaption>{content.example.caption}</figcaption>
-      </figure>
-    </div>
-  </section>
-
-  <section class="value-section" aria-labelledby="value-heading">
-    <div class="section-inner value-inner">
-      <div class="section-copy value-copy">
-        <h2 id="value-heading">{content.value.heading}</h2>
-        {content.value.text.map((paragraph) => <p>{paragraph}</p>)}
-      </div>
-      <ul class="benefit-list">
-        {content.value.benefits.map((benefit) => (
-          <li>
-            <span class="check-icon" aria-hidden="true"><Fragment set:html={checkIcon} /></span>
-            <span>{benefit}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
-  </section>
+  <BusinessBookAnimation
+    spreads={content.embeddedBook.spreads}
+    navigation={content.embeddedBook.navigation}
+    currentLocale={currentLocale}
+    idPrefix="family-book-spread"
+    headingId="family-book-heading"
+    headingLevel="h2"
+  />
 
   <section class="formats-section" aria-labelledby="formats-heading">
     <div class="section-inner">
@@ -106,47 +84,65 @@ const emailAddress = 'isabella@wunderwelt.kids';
       </div>
       <div class="formats-grid">
         {content.formats.items.map((format, index) => (
-          <article class:list={['format-card', { 'format-card--tinted': index === 0 || index === 3 }]}>
-            <h3>{format.title}</h3>
-            <p>{format.text}</p>
+          <article class:list={['format-card', { 'format-card--tinted': index === 0 || index === 2 }]}>
+            <Picture
+              class="format-visual"
+              src={formatVisuals[index]}
+              formats={['avif']}
+              fallbackFormat="webp"
+              widths={[220, 320, 480, 640]}
+              sizes="(max-width: 760px) calc(100vw - 44px), (max-width: 900px) calc(50vw - 40px), 320px"
+              quality={70}
+              alt={format.visualAlt}
+              loading="lazy"
+              decoding="async"
+            />
+            <div class="format-card-copy">
+              <h3>{format.title}</h3>
+              <p>{format.text}</p>
+            </div>
           </article>
         ))}
       </div>
     </div>
   </section>
 
-  <section class="uses-section" aria-labelledby="uses-heading">
-    <div class="section-inner uses-inner">
-      <h2 id="uses-heading">{content.uses.heading}</h2>
-      <ul class="uses-grid">
-        {content.uses.items.map((item) => (
-          <li>
-            <span class="check-icon" aria-hidden="true"><Fragment set:html={checkIcon} /></span>
-            <span>{item}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
-  </section>
-
   <section class="implementation-section" aria-labelledby="implementation-heading">
-    <Picture
-      class="implementation-twig"
-      src={twigImage}
-      formats={['avif']}
-      fallbackFormat="webp"
-      widths={[190, 230, 330, 460, 660]}
-      sizes="(max-width: 760px) 230px, min(24vw, 330px)"
-      quality={60}
-      alt=""
-      aria-hidden="true"
-      loading="lazy"
-    />
     <div class="section-inner implementation-inner">
-      <h2 id="implementation-heading">{content.implementation.heading}</h2>
       <div class="implementation-copy">
+        <h2 id="implementation-heading">{content.implementation.heading}</h2>
         {content.implementation.text.map((paragraph) => <p>{paragraph}</p>)}
       </div>
+      <ol class="implementation-steps" aria-label={content.implementation.processLabel}>
+        {content.implementation.steps.map((step, index) => (
+          <li
+            class="implementation-step"
+            tabindex="0"
+            aria-labelledby={`implementation-step-${index + 1}-heading`}
+          >
+            <figure class="implementation-step-visual">
+              <Picture
+                src={implementationVisuals[step.imageKey]}
+                formats={['avif']}
+                fallbackFormat="webp"
+                widths={[260, 400, 560, 720]}
+                sizes="(max-width: 760px) calc(100vw - 44px), (max-width: 900px) calc(50vw - 34px), 320px"
+                quality={72}
+                alt={step.imageAlt}
+                loading="lazy"
+                decoding="async"
+              />
+            </figure>
+            <div class="implementation-step-copy">
+              <span class="implementation-step-number" aria-hidden="true">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+              <h3 id={`implementation-step-${index + 1}-heading`}>{step.title}</h3>
+              <p>{step.text}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
     </div>
   </section>
 
@@ -300,7 +296,6 @@ const emailAddress = 'isabella@wunderwelt.kids';
 
   .business-shell {
     min-height: 100vh;
-    overflow: hidden;
     background: #fffdf8;
   }
 
@@ -313,8 +308,8 @@ const emailAddress = 'isabella@wunderwelt.kids';
 
   .business-hero {
     display: grid;
-    grid-template-columns: minmax(0, 1.12fr) minmax(360px, 0.88fr);
-    gap: clamp(38px, 7vw, 86px);
+    grid-template-columns: minmax(0, 1.04fr) minmax(340px, 0.96fr);
+    gap: clamp(34px, 5vw, 72px);
     align-items: center;
     min-height: min(620px, calc(100dvh - 92px));
     padding: 42px 0 58px;
@@ -324,6 +319,22 @@ const emailAddress = 'isabella@wunderwelt.kids';
     position: relative;
     z-index: 2;
     max-width: 510px;
+  }
+
+  .hero-art {
+    width: min(100%, 590px);
+    margin: 0;
+    justify-self: end;
+    align-self: center;
+  }
+
+  .hero-book-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    object-fit: contain;
+    filter: drop-shadow(0 22px 32px rgba(40, 75, 112, 0.18));
   }
 
   h1,
@@ -392,29 +403,20 @@ const emailAddress = 'isabella@wunderwelt.kids';
     transition: background-color 160ms ease, transform 160ms ease;
   }
 
-  .primary-button:hover,
+  .primary-button:hover {
+    background: #284b70;
+    transform: translateY(-1px);
+  }
+
   .primary-button:focus-visible {
     background: #284b70;
-    outline: 3px solid #ffd9e5;
+    outline: 3px solid #78a49f;
     outline-offset: 3px;
     transform: translateY(-1px);
   }
 
   .primary-button:active {
     transform: scale(0.98);
-  }
-
-  .hero-art {
-    position: relative;
-    display: grid;
-    align-items: center;
-  }
-
-  .hero-book-image {
-    display: block;
-    width: 100%;
-    height: auto;
-    object-fit: contain;
   }
 
   .section-inner {
@@ -544,14 +546,16 @@ const emailAddress = 'isabella@wunderwelt.kids';
 
   .formats-grid {
     display: grid;
-    grid-template-columns: 1.12fr 0.88fr;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 18px;
   }
 
   .format-card {
-    min-height: 178px;
+    display: flex;
+    min-height: 0;
     box-sizing: border-box;
-    padding: clamp(24px, 3vw, 34px);
+    flex-direction: column;
+    overflow: hidden;
     border: 1px solid rgba(40, 75, 112, 0.13);
     border-radius: 8px;
     background: #fffdf8;
@@ -562,9 +566,18 @@ const emailAddress = 'isabella@wunderwelt.kids';
     background: #fff9ed;
   }
 
-  .format-card:nth-child(3),
-  .format-card:nth-child(4) {
-    transform: translateX(42px);
+  .format-visual {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    background: #eef4fb;
+  }
+
+  .format-card-copy {
+    display: grid;
+    gap: 10px;
+    padding: clamp(20px, 2.5vw, 28px);
   }
 
   .uses-section {
@@ -615,27 +628,109 @@ const emailAddress = 'isabella@wunderwelt.kids';
   .implementation-inner {
     position: relative;
     z-index: 1;
-    max-width: 780px;
+    display: grid;
+    gap: clamp(34px, 5vw, 58px);
+    max-width: 1040px;
   }
 
   .implementation-inner h2 {
-    max-width: 650px;
+    max-width: 720px;
   }
 
   .implementation-copy {
     display: grid;
     gap: 13px;
-    max-width: 700px;
+    max-width: 760px;
   }
 
-  .implementation-twig {
+  .implementation-steps {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(18px, 2.4vw, 30px);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .implementation-steps::before {
     position: absolute;
-    right: -62px;
-    bottom: -76px;
-    width: clamp(190px, 24vw, 330px);
-    height: auto;
-    opacity: 0.72;
-    transform: scaleX(-1) rotate(-8deg);
+    z-index: 0;
+    top: clamp(112px, 12vw, 146px);
+    right: 9%;
+    left: 9%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(120, 164, 159, 0.5) 12%, rgba(120, 164, 159, 0.5) 88%, transparent);
+    content: '';
+  }
+
+  .implementation-step {
+    position: relative;
+    z-index: 1;
+    min-width: 0;
+    padding: 0 0 3px;
+    border-radius: 8px;
+    outline: none;
+    transition: transform 180ms ease;
+  }
+
+  .implementation-step:hover,
+  .implementation-step:focus-visible {
+    transform: translateY(-3px);
+  }
+
+  .implementation-step:focus-visible {
+    outline: 3px solid #78a49f;
+    outline-offset: 5px;
+  }
+
+  .implementation-step-visual {
+    aspect-ratio: 1;
+    margin: 0;
+    overflow: hidden;
+    border-radius: 8px;
+    border: 1px solid rgba(40, 75, 112, 0.14);
+    background: #fffdf8;
+    box-shadow: 0 18px 34px rgba(40, 75, 112, 0.16);
+  }
+
+  .implementation-step-visual picture,
+  .implementation-step-visual img {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .implementation-step-visual img {
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .implementation-step-copy {
+    display: grid;
+    gap: 7px;
+    padding: 18px 4px 0;
+  }
+
+  .implementation-step-number {
+    color: #78a49f;
+    font-family: 'Andika', system-ui, sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+  }
+
+  .implementation-step-copy h3 {
+    margin: 0;
+    color: #284b70;
+    font-size: clamp(1.1rem, 1.8vw, 1.3rem);
+  }
+
+  .implementation-step-copy p {
+    margin: 0;
+    color: #111827;
+    font-size: 0.98rem;
+    line-height: 1.55;
   }
 
   .form-section {
@@ -728,7 +823,7 @@ const emailAddress = 'isabella@wunderwelt.kids';
   .form-field input:focus-visible,
   .form-field textarea:focus-visible {
     border-color: #284b70;
-    outline: 3px solid #ffd9e5;
+    outline: 3px solid #78a49f;
     outline-offset: 2px;
     box-shadow: 0 0 0 1px #284b70;
   }
@@ -829,7 +924,7 @@ const emailAddress = 'isabella@wunderwelt.kids';
   .footer-links a:hover,
   .footer-links a:focus-visible {
     color: #78a49f;
-    outline: 3px solid #ffd9e5;
+    outline: 3px solid #78a49f;
     outline-offset: 4px;
     transform: translateY(-1px);
   }
@@ -851,17 +946,47 @@ const emailAddress = 'isabella@wunderwelt.kids';
 
   @media (max-width: 900px) {
     .business-hero {
-      grid-template-columns: minmax(0, 1fr) minmax(310px, 0.82fr);
+      grid-template-columns: minmax(0, 1fr);
       gap: 32px;
+    }
+
+    .hero-art {
+      width: min(100%, 680px);
+      justify-self: center;
     }
 
     h1 {
       font-size: clamp(2.2rem, 5vw, 3rem);
     }
 
-    .format-card:nth-child(3),
-    .format-card:nth-child(4) {
-      transform: none;
+    .formats-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .implementation-steps {
+      grid-template-columns: 1fr;
+      gap: 26px;
+    }
+
+    .implementation-steps::before {
+      top: 0;
+      right: auto;
+      bottom: 0;
+      left: 17px;
+      width: 2px;
+      height: auto;
+      background: linear-gradient(180deg, transparent, rgba(120, 164, 159, 0.5) 8%, rgba(120, 164, 159, 0.5) 92%, transparent);
+    }
+
+    .implementation-step {
+      display: grid;
+      grid-template-columns: minmax(150px, 0.34fr) minmax(0, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .implementation-step-copy {
+      padding: 18px 0 0;
     }
   }
 
@@ -891,10 +1016,17 @@ const emailAddress = 'isabella@wunderwelt.kids';
 
     .hero-copy {
       max-width: 100%;
+      min-width: 0;
     }
 
     .hero-art {
-      width: 100%;
+      width: calc(100% + 12px);
+      margin-left: -6px;
+    }
+
+    .primary-button {
+      white-space: normal;
+      text-align: center;
     }
 
     .example-section,
@@ -947,13 +1079,38 @@ const emailAddress = 'isabella@wunderwelt.kids';
     }
 
     .implementation-inner {
-      padding-right: 34px;
+      gap: 30px;
+      padding-right: 0;
     }
 
-    .implementation-twig {
-      right: -96px;
-      width: 230px;
-      opacity: 0.52;
+    .implementation-steps {
+      grid-template-columns: 1fr;
+      gap: 26px;
+    }
+
+    .implementation-steps::before {
+      top: 0;
+      right: auto;
+      bottom: 0;
+      left: 16px;
+      width: 2px;
+      height: auto;
+      background: linear-gradient(180deg, transparent, rgba(120, 164, 159, 0.5) 8%, rgba(120, 164, 159, 0.5) 92%, transparent);
+    }
+
+    .implementation-step {
+      display: grid;
+      grid-template-columns: minmax(96px, 0.34fr) minmax(0, 1fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .implementation-step-visual {
+      width: 100%;
+    }
+
+    .implementation-step-copy {
+      padding: 10px 0 0;
     }
 
     .contact-form {
@@ -999,7 +1156,8 @@ const emailAddress = 'isabella@wunderwelt.kids';
     .primary-button,
     .form-field input,
     .form-field textarea,
-    .footer-links a {
+    .footer-links a,
+    .implementation-step {
       transition: none;
     }
 

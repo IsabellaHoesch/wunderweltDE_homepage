@@ -20,7 +20,7 @@ const {
   currentPage = 'home',
 } = Astro.props;
 const isGerman = currentLocale === 'de';
-const businessLabel = isGerman ? 'Für Unternehmen' : 'For businesses';
+const businessLabel = isGerman ? 'Für Hotels' : 'For hotels';
 const menuLabel = isGerman ? 'Menü' : 'Menu';
 const logoLabel = isGerman ? 'Wunderwelt Startseite' : 'Wunderwelt home page';
 ---
@@ -211,7 +211,7 @@ const logoLabel = isGerman ? 'Wunderwelt Startseite' : 'Wunderwelt home page';
   .language-link:focus-visible,
   .logo-link:focus-visible {
     border-radius: 4px;
-    outline: 3px solid #ffd9e5;
+    outline: 3px solid #78a49f;
     outline-offset: 4px;
   }
 
@@ -232,7 +232,10 @@ const logoLabel = isGerman ? 'Wunderwelt Startseite' : 'Wunderwelt home page';
   .menu-button:focus-visible {
     border-color: #78a49f;
     color: #78a49f;
-    outline: 3px solid #ffd9e5;
+  }
+
+  .menu-button:focus-visible {
+    outline: 3px solid #78a49f;
     outline-offset: 3px;
   }
 

@@ -8,6 +8,13 @@ interface ContentStrings {
   notice: {
     text: string;
   };
+  bestsellers: {
+    heading: string;
+    items: Array<{
+      linkLabel: string;
+      imageAlt: string;
+    }>;
+  };
   process: {
     heading: string;
     subheading: string;
@@ -46,6 +53,31 @@ export const homeContent: Record<'en' | 'de', ContentStrings> = {
     },
     notice: {
       text: 'Our books are currently only available on Etsy. There you can personalize and order your book.',
+    },
+    bestsellers: {
+      heading: 'Our Bestsellers',
+      items: [
+        {
+          linkLabel: 'WIE CELINA personalized children\'s book – view on Etsy',
+          imageAlt: 'Cover of the personalized children\'s book WIE CELINA with a girl on a pink shell.',
+        },
+        {
+          linkLabel: 'SEBASTIAN UND DIE LANDWIRTSCHAFT personalized children\'s book – view on Etsy',
+          imageAlt: 'Cover of the personalized children\'s book SEBASTIAN UND DIE LANDWIRTSCHAFT with a child on a tractor.',
+        },
+        {
+          linkLabel: 'MIAS TIERISCH TOLLER PAPA personalized children\'s book – view on Etsy',
+          imageAlt: 'Cover of the personalized children\'s book MIAS TIERISCH TOLLER PAPA with a father and child.',
+        },
+        {
+          linkLabel: 'JURI WIRD GROSSER BRUDER personalized children\'s book – view on Etsy',
+          imageAlt: 'Cover of the personalized children\'s book JURI WIRD GROSSER BRUDER with otters and a turtle.',
+        },
+        {
+          linkLabel: 'WILLKOMMEN AUF DER WELT JOSEPHINE personalized children\'s book – view on Etsy',
+          imageAlt: 'Cover of the personalized children\'s book WILLKOMMEN AUF DER WELT JOSEPHINE with animals from around the world.',
+        },
+      ],
     },
     process: {
       heading: 'How ordering works',
@@ -188,7 +220,32 @@ export const homeContent: Record<'en' | 'de', ContentStrings> = {
         'Mutter hält ihr Kind und ein personalisiertes Wunderwelt-Kinderbuch mit dem Namen Leander.',
     },
     notice: {
-      text: 'Unsere Bücher sind aktuell nur auf Etsy erhältlich. Dort kannst du dein Buch personalisieren und bestellen.',
+      text: 'Unsere Bücher sind auf Etsy erhältlich. Dort kannst du dein Buch personalisieren und bestellen.',
+    },
+    bestsellers: {
+      heading: 'Unsere Bestseller',
+      items: [
+        {
+          linkLabel: 'Personalisiertes Kinderbuch WIE CELINA auf Etsy ansehen',
+          imageAlt: 'Cover des personalisierten Kinderbuchs WIE CELINA mit einem Mädchen auf einer pinken Muschel.',
+        },
+        {
+          linkLabel: 'Personalisiertes Kinderbuch SEBASTIAN UND DIE LANDWIRTSCHAFT auf Etsy ansehen',
+          imageAlt: 'Cover des personalisierten Kinderbuchs SEBASTIAN UND DIE LANDWIRTSCHAFT mit einem Kind auf einem Traktor.',
+        },
+        {
+          linkLabel: 'Personalisiertes Kinderbuch MIAS TIERISCH TOLLER PAPA auf Etsy ansehen',
+          imageAlt: 'Cover des personalisierten Kinderbuchs MIAS TIERISCH TOLLER PAPA mit einem Papa und seinem Kind.',
+        },
+        {
+          linkLabel: 'Personalisiertes Kinderbuch JURI WIRD GROSSER BRUDER auf Etsy ansehen',
+          imageAlt: 'Cover des personalisierten Kinderbuchs JURI WIRD GROSSER BRUDER mit Ottern und einer Schildkröte.',
+        },
+        {
+          linkLabel: 'Personalisiertes Kinderbuch WILLKOMMEN AUF DER WELT JOSEPHINE auf Etsy ansehen',
+          imageAlt: 'Cover des personalisierten Kinderbuchs WILLKOMMEN AUF DER WELT JOSEPHINE mit Tieren aus aller Welt.',
+        },
+      ],
     },
     process: {
       heading: 'So funktioniert die Bestellung',
@@ -200,7 +257,7 @@ export const homeContent: Record<'en' | 'de', ContentStrings> = {
         },
         {
           title: 'Personalisieren',
-          text: 'Namen, Beschreibungen, Widmung und andere Personalisierungsdetailsgibst du direkt bei Etsy an.',
+          text: 'Namen, Beschreibungen, Widmung und andere Personalisierungsdetails gibst du direkt bei Etsy an.',
         },
         {
           title: 'Freude schenken',

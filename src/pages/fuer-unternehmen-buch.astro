@@ -1,0 +1,19 @@
+---
+import Layout from '../layouts/main.astro';
+import BusinessBookPage from '../components/BusinessBookPage.astro';
+import { businessBookContent } from '../data/businessBookContent';
+---
+
+<Layout
+  content={{
+    title: 'Für Unternehmen – Das Buch | Individuelle Kinderbücher | Wunderwelt.kids',
+    description:
+      'Ein digitaler Rundgang durch individuelle Kinderbücher, Markenwelten und Geschenkformate für Unternehmen.',
+  }}
+>
+  <BusinessBookPage
+    content={businessBookContent.de}
+    currentLocale="de"
+    alternateLocaleHref="/en/for-business-book/"
+  />
+</Layout>

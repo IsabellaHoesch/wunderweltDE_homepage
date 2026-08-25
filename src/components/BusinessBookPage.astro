@@ -1,0 +1,1046 @@
+---
+import { Picture } from 'astro:assets';
+import type { BusinessBookContent, BusinessBookImageKey } from '../data/businessBookContent';
+import SiteHeader from './SiteHeader.astro';
+import heroImage from '../assets/business-book/01-hero.png';
+import worldImage from '../assets/business-book/02-brand-world.png';
+import connectionImage from '../assets/business-book/03-family-reading.png';
+import formatsImage from '../assets/business-book/04-formats.png';
+import usesImage from '../assets/business-book/05-uses.png';
+import implementationImage from '../assets/business-book/06-implementation.png';
+import contactImage from '../assets/business-book/07-contact.png';
+import logoShort from '../../assets/Etsy logo (2)/logo_short.png';
+import instagramIcon from 'lucide-static/icons/instagram.svg?raw';
+
+interface Props {
+  content: BusinessBookContent;
+  currentLocale: 'de' | 'en';
+  alternateLocaleHref: string;
+}
+
+const { content, currentLocale, alternateLocaleHref } = Astro.props;
+const isGerman = currentLocale === 'de';
+const homeHref = isGerman ? '/' : '/en/';
+const businessHref = isGerman ? '/fuer-unternehmen/' : '/en/for-business/';
+const instagramHref = 'https://www.instagram.com/wunderwelt.kids/';
+const emailAddress = 'isabella@wunderwelt.kids';
+const spreadImages: Record<BusinessBookImageKey, typeof heroImage> = {
+  hero: heroImage,
+  world: worldImage,
+  connection: connectionImage,
+  formats: formatsImage,
+  uses: usesImage,
+  implementation: implementationImage,
+  contact: contactImage,
+};
+---
+
+<main class="business-book-shell">
+  <div class="business-book-top">
+    <SiteHeader
+      currentLocale={currentLocale}
+      alternateLocaleHref={alternateLocaleHref}
+      businessHref={businessHref}
+      logoHref={homeHref}
+      currentPage="business"
+    />
+  </div>
+
+  <section class="business-book-story" data-book-story aria-labelledby="business-book-title">
+    <aside class="business-book-rail" aria-label={content.navigation.label}>
+      <nav>
+        <ol>
+          {content.spreads.map((spread, index) => (
+            <li>
+              <a
+                href={`#book-spread-${spread.id}`}
+                data-book-link
+                data-index={index}
+                aria-label={spread.navLabel}
+                aria-current={index === 0 ? 'step' : undefined}
+              >
+                <span class="business-book-rail-number">{String(index + 1).padStart(2, '0')}</span>
+                <span class="business-book-rail-label">{spread.navLabel}</span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+    </aside>
+
+    <div class="business-book-mobile-menu" data-book-mobile-menu>
+      <button
+        type="button"
+        aria-expanded="false"
+        aria-controls="business-book-mobile-nav"
+        aria-label={content.navigation.open}
+        data-open-label={content.navigation.open}
+        data-close-label={content.navigation.close}
+      >
+        <span>{content.navigation.label}</span>
+        <span aria-hidden="true">⌄</span>
+      </button>
+      <nav id="business-book-mobile-nav" hidden aria-label={content.navigation.label}>
+        <ol>
+          {content.spreads.map((spread, index) => (
+            <li>
+              <a
+                href={`#book-spread-${spread.id}`}
+                data-book-link
+                data-index={index}
+                aria-current={index === 0 ? 'step' : undefined}
+              >
+                <span>{String(index + 1).padStart(2, '0')}</span>
+                <span>{spread.navLabel}</span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+    </div>
+
+    <div class="business-book-stage" data-book-stage>
+      <div class="business-book-frame">
+        {content.spreads.map((spread, index) => (
+          <article
+            id={`book-spread-${spread.id}`}
+            class:list={[
+              'business-book-spread',
+              { 'business-book-spread--contact': spread.kind === 'contact' },
+            ]}
+            data-book-spread
+            data-index={index}
+            data-state={index === 0 ? 'active' : 'after'}
+          >
+            <section class="business-book-page business-book-page--left">
+              <div class="business-book-page-content">
+                <p class="business-book-page-number">
+                  {String(index + 1).padStart(2, '0')} / {String(content.spreads.length).padStart(2, '0')}
+                </p>
+                {index === 0 ? (
+                  <h1 id="business-book-title">{spread.heading}</h1>
+                ) : (
+                  <h2>{spread.heading}</h2>
+                )}
+
+                {spread.kind === 'contact' ? (
+                  <div class="business-book-contact-content">
+                    <div class="business-book-contact-intro">
+                      {content.form.text.map((paragraph) => <p>{paragraph}</p>)}
+                    </div>
+                    <form
+                      class="business-book-contact-form"
+                      action={`mailto:${emailAddress}`}
+                      method="post"
+                      enctype="text/plain"
+                      data-book-contact-form
+                      data-locale={currentLocale}
+                      data-email={emailAddress}
+                      data-subject={content.form.subject}
+                      data-status-message={content.form.status}
+                    >
+                      <div class="business-book-form-grid">
+                        <div class="business-book-form-field">
+                          <label for="book-business-name">
+                            {content.form.labels.name}
+                            <span>({content.form.requiredHint})</span>
+                          </label>
+                          <input id="book-business-name" name="name" type="text" autocomplete="name" required />
+                        </div>
+                        <div class="business-book-form-field">
+                          <label for="book-business-email">
+                            {content.form.labels.email}
+                            <span>({content.form.requiredHint})</span>
+                          </label>
+                          <input id="book-business-email" name="email" type="email" autocomplete="email" required />
+                        </div>
+                      </div>
+                      <div class="business-book-form-field">
+                        <label for="book-business-company">
+                          {content.form.labels.company}
+                          <span>({content.form.requiredHint})</span>
+                        </label>
+                        <input id="book-business-company" name="company" type="text" autocomplete="organization" required />
+                      </div>
+                      <div class="business-book-form-field">
+                        <label for="book-business-message">{content.form.labels.message}</label>
+                        <textarea
+                          id="book-business-message"
+                          name="message"
+                          rows="3"
+                          placeholder={content.form.messagePlaceholder}
+                        ></textarea>
+                      </div>
+                      <button class="business-book-submit" type="submit">{content.form.cta}</button>
+                      <p class="business-book-form-status" aria-live="polite" data-book-form-status></p>
+                    </form>
+                  </div>
+                ) : (
+                  <>
+                    <div class="business-book-copy">
+                      {spread.text.map((paragraph) => <p>{paragraph}</p>)}
+                    </div>
+                    {spread.list && (
+                      <ul class:list={[
+                        'business-book-list',
+                        { 'business-book-list--uses': spread.id === 'einsatzbereiche' || spread.id === 'uses' },
+                      ]}>
+                        {spread.list.map((item) => (
+                          <li>
+                            <span class="business-book-list-mark" aria-hidden="true"></span>
+                            <span>
+                              {item.title && <strong>{item.title}</strong>}
+                              <span>{item.text}</span>
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </>
+                )}
+              </div>
+            </section>
+
+            <section class="business-book-page business-book-page--right" aria-label={spread.imageAlt}>
+              <Picture
+                src={spreadImages[spread.imageKey]}
+                formats={['avif']}
+                fallbackFormat="webp"
+                widths={[540, 720, 960, 1200, 1440]}
+                sizes="(max-width: 760px) calc(100vw - 44px), 44vw"
+                quality={72}
+                alt={spread.imageAlt}
+                loading={index === 0 ? 'eager' : 'lazy'}
+                decoding="async"
+              />
+            </section>
+            <div class="business-book-turn-sheet" aria-hidden="true"></div>
+          </article>
+        ))}
+      </div>
+    </div>
+
+    <div class="business-book-scroll-track" data-book-track aria-hidden="true">
+      {content.spreads.map((_, index) => (
+        <div class="business-book-scroll-step" data-book-step data-index={index}></div>
+      ))}
+    </div>
+  </section>
+
+  <footer class="business-book-footer">
+    <Picture
+      src={logoShort}
+      formats={['avif']}
+      fallbackFormat="webp"
+      widths={[56, 112]}
+      sizes="56px"
+      quality={65}
+      loading="lazy"
+      decoding="async"
+      class="business-book-footer-logo"
+      alt="WunderweltDE"
+    />
+    <p>{content.footer}</p>
+    <nav aria-label={isGerman ? 'Footer' : 'Footer navigation'}>
+      <a href="/impressum/" target="_blank" rel="noopener noreferrer">
+        {isGerman ? 'Impressum' : 'Legal notice'}
+      </a>
+      <span aria-hidden="true">|</span>
+      <a href="/datenschutz/" target="_blank" rel="noopener noreferrer">
+        {isGerman ? 'Datenschutz' : 'Privacy policy'}
+      </a>
+      <a
+        class="business-book-social-link"
+        href={instagramHref}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={isGerman ? 'Wunderwelt Kids auf Instagram' : 'Wunderwelt Kids on Instagram'}
+      >
+        <Fragment set:html={instagramIcon} />
+      </a>
+    </nav>
+  </footer>
+</main>
+
+<script>
+  const stories = document.querySelectorAll<HTMLElement>('[data-book-story]');
+
+  stories.forEach((story) => {
+    const track = story.querySelector<HTMLElement>('[data-book-track]');
+    const steps = Array.from(story.querySelectorAll<HTMLElement>('[data-book-step]'));
+    const spreads = Array.from(story.querySelectorAll<HTMLElement>('[data-book-spread]'));
+    const links = Array.from(story.querySelectorAll<HTMLAnchorElement>('[data-book-link]'));
+    const mobileMenu = story.querySelector<HTMLElement>('[data-book-mobile-menu]');
+    const mobileButton = mobileMenu?.querySelector<HTMLButtonElement>('button');
+    const mobileNavigation = mobileMenu?.querySelector<HTMLElement>('nav');
+    const desktopQuery = window.matchMedia('(min-width: 761px)');
+    const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let enhanced = false;
+    let animationFrame = 0;
+
+    const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max);
+
+    const setActiveChapter = (activeIndex: number) => {
+      links.forEach((link) => {
+        if (Number(link.dataset.index) === activeIndex) {
+          link.setAttribute('aria-current', 'step');
+        } else {
+          link.removeAttribute('aria-current');
+        }
+      });
+    };
+
+    const updateStory = () => {
+      animationFrame = 0;
+      if (!enhanced || !track || !steps.length) return;
+
+      const stepHeight = steps[0].getBoundingClientRect().height || window.innerHeight;
+      const progress = clamp(-track.getBoundingClientRect().top / stepHeight, 0, spreads.length - 1);
+      const activeIndex = Math.min(spreads.length - 1, Math.round(progress));
+
+      spreads.forEach((spread, index) => {
+        const turnProgress = clamp(progress - index, 0, 1);
+        spread.style.setProperty('--turn-progress', String(turnProgress));
+        spread.dataset.state =
+          index === activeIndex ? 'active' : index < activeIndex ? 'before' : 'after';
+        spread.style.zIndex = String(spreads.length - Math.abs(activeIndex - index));
+      });
+      setActiveChapter(activeIndex);
+    };
+
+    const requestUpdate = () => {
+      if (!animationFrame) animationFrame = window.requestAnimationFrame(updateStory);
+    };
+
+    const canEnhance = () => desktopQuery.matches;
+
+    const setEnhancement = () => {
+      enhanced = canEnhance();
+      story.dataset.bookEnhanced = String(enhanced);
+      story.dataset.bookReducedMotion = String(reducedMotionQuery.matches);
+      if (enhanced) requestUpdate();
+    };
+
+    const closeMobileMenu = () => {
+      if (!mobileButton || !mobileNavigation) return;
+      mobileButton.setAttribute('aria-expanded', 'false');
+      mobileButton.setAttribute('aria-label', mobileButton.dataset.openLabel || 'Open chapter overview');
+      mobileNavigation.hidden = true;
+    };
+
+    mobileButton?.addEventListener('click', () => {
+      if (!mobileNavigation) return;
+      const willOpen = mobileButton.getAttribute('aria-expanded') !== 'true';
+      mobileButton.setAttribute('aria-expanded', String(willOpen));
+      mobileButton.setAttribute(
+        'aria-label',
+        willOpen
+          ? mobileButton.dataset.closeLabel || 'Close chapter overview'
+          : mobileButton.dataset.openLabel || 'Open chapter overview',
+      );
+      mobileNavigation.hidden = !willOpen;
+    });
+
+    links.forEach((link) => {
+      link.addEventListener('click', (event) => {
+        closeMobileMenu();
+        if (!enhanced || !steps.length) return;
+        event.preventDefault();
+        const index = clamp(Number(link.dataset.index || 0), 0, steps.length - 1);
+        const target = steps[index].getBoundingClientRect().top + window.scrollY;
+        story.dataset.bookJump = 'true';
+        window.setTimeout(() => delete story.dataset.bookJump, 650);
+        window.scrollTo({ top: target, behavior: 'smooth' });
+      });
+    });
+
+    window.addEventListener('scroll', requestUpdate, { passive: true });
+    window.addEventListener('resize', setEnhancement);
+    desktopQuery.addEventListener('change', setEnhancement);
+    reducedMotionQuery.addEventListener('change', setEnhancement);
+    setEnhancement();
+  });
+
+  document.querySelectorAll<HTMLFormElement>('[data-book-contact-form]').forEach((form) => {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      if (!form.reportValidity()) return;
+
+      const formData = new FormData(form);
+      const locale = form.dataset.locale || 'de';
+      const labels =
+        locale === 'de'
+          ? { name: 'Name', email: 'E-Mail-Adresse', company: 'Unternehmen', message: 'Nachricht' }
+          : { name: 'Name', email: 'Email address', company: 'Company', message: 'Message' };
+      const body = [
+        `${labels.name}: ${formData.get('name') || ''}`,
+        `${labels.email}: ${formData.get('email') || ''}`,
+        `${labels.company}: ${formData.get('company') || ''}`,
+        '',
+        `${labels.message}:`,
+        String(formData.get('message') || ''),
+      ].join('\n');
+      const subject = form.dataset.subject || '';
+      const email = form.dataset.email || '';
+      const mailto = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      const status = form.querySelector<HTMLElement>('[data-book-form-status]');
+
+      if (status) status.textContent = form.dataset.statusMessage || '';
+      window.location.href = mailto;
+    });
+  });
+</script>
+
+<style>
+  :global(html) {
+    scroll-behavior: smooth;
+  }
+
+  :global(body) {
+    margin: 0;
+    background: #fffdf8;
+    color: #284b70;
+    font-family: 'Atkinson Hyperlegible', system-ui, sans-serif;
+  }
+
+  .business-book-shell {
+    min-height: 100vh;
+    background: #fffdf8;
+  }
+
+  .business-book-top {
+    width: min(100% - 44px, 1160px);
+    margin-inline: auto;
+    padding-top: 30px;
+  }
+
+  .business-book-story {
+    position: relative;
+    padding-block: 34px 90px;
+  }
+
+  .business-book-stage {
+    --book-height: min(720px, calc(100dvh - 132px));
+    position: relative;
+    z-index: 2;
+    box-sizing: border-box;
+    width: min(100% - 44px, 1120px);
+    margin-inline: auto;
+  }
+
+  .business-book-frame {
+    display: grid;
+    gap: 34px;
+  }
+
+  .business-book-spread {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    min-height: 620px;
+    overflow: hidden;
+    border: 1px solid rgba(40, 75, 112, 0.14);
+    border-radius: 14px;
+    background: #fffdf8;
+    box-shadow: 0 24px 60px rgba(40, 75, 112, 0.14);
+    isolation: isolate;
+  }
+
+  .business-book-page {
+    position: relative;
+    min-width: 0;
+  }
+
+  .business-book-page--left {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    padding: clamp(28px, 4vw, 58px);
+    background: #fffdf8;
+  }
+
+  .business-book-page--left::after {
+    position: absolute;
+    top: 20px;
+    right: 0;
+    bottom: 20px;
+    width: 1px;
+    background: linear-gradient(180deg, transparent, rgba(40, 75, 112, 0.22), transparent);
+    box-shadow: 3px 0 10px rgba(40, 75, 112, 0.12);
+    content: '';
+  }
+
+  .business-book-page--right {
+    display: flex;
+    align-items: stretch;
+    padding: 14px;
+    background: #f1ecdf;
+  }
+
+  .business-book-page--right picture,
+  .business-book-page--right img {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .business-book-page--right img {
+    border-radius: 8px;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .business-book-page-content {
+    width: 100%;
+    max-width: 480px;
+    margin-inline: auto;
+  }
+
+  .business-book-page-number {
+    margin: 0 0 18px;
+    color: #78a49f;
+    font-family: 'Andika', system-ui, sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+  }
+
+  .business-book-page h1,
+  .business-book-page h2 {
+    margin: 0 0 22px;
+    color: #284b70;
+    font-family: 'Andika', system-ui, sans-serif;
+    font-size: clamp(2rem, 3.3vw, 3rem);
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+  }
+
+  .business-book-copy,
+  .business-book-contact-intro {
+    display: grid;
+    gap: 12px;
+  }
+
+  .business-book-copy p,
+  .business-book-contact-intro p {
+    margin: 0;
+    color: #111827;
+    font-size: clamp(1rem, 1.35vw, 1.1rem);
+    line-height: 1.58;
+  }
+
+  .business-book-list {
+    display: grid;
+    gap: 10px;
+    margin: 24px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .business-book-list li {
+    display: grid;
+    grid-template-columns: 10px minmax(0, 1fr);
+    gap: 10px;
+    align-items: start;
+    color: #111827;
+    font-size: 0.94rem;
+    line-height: 1.4;
+  }
+
+  .business-book-list-mark {
+    width: 9px;
+    height: 9px;
+    margin-top: 0.4em;
+    border-radius: 50%;
+    background: #78a49f;
+  }
+
+  .business-book-list li > span:last-child {
+    display: grid;
+    gap: 3px;
+  }
+
+  .business-book-list strong {
+    color: #284b70;
+    font-family: 'Andika', system-ui, sans-serif;
+    font-size: 0.98rem;
+  }
+
+  .business-book-list--uses {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 11px 18px;
+  }
+
+  .business-book-turn-sheet {
+    position: absolute;
+    z-index: 5;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 50%;
+    pointer-events: none;
+    background: linear-gradient(90deg, rgba(255, 253, 248, 0.2), rgba(255, 253, 248, 0.68), rgba(40, 75, 112, 0.08));
+    opacity: calc(var(--turn-progress, 0) * 0.5);
+    transform: perspective(900px) rotateY(calc(-10deg * var(--turn-progress, 0)));
+    transform-origin: left center;
+  }
+
+  .business-book-rail {
+    position: fixed;
+    z-index: 10;
+    top: 50%;
+    right: clamp(14px, 3vw, 46px);
+    transform: translateY(-50%);
+  }
+
+  .business-book-rail ol,
+  .business-book-mobile-menu ol {
+    display: grid;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .business-book-rail a {
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+    min-height: 28px;
+    padding: 4px 8px;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    color: #496583;
+    font-family: 'Andika', system-ui, sans-serif;
+    font-size: 0.78rem;
+    text-decoration: none;
+    transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease;
+  }
+
+  .business-book-rail a:hover,
+  .business-book-rail a:focus-visible,
+  .business-book-rail a[aria-current='step'] {
+    border-color: rgba(120, 164, 159, 0.4);
+    background: rgba(255, 253, 248, 0.94);
+    color: #284b70;
+    outline: none;
+  }
+
+  .business-book-rail-number {
+    color: #78a49f;
+    font-size: 0.72rem;
+    font-weight: 700;
+  }
+
+  .business-book-mobile-menu {
+    display: none;
+  }
+
+  .business-book-scroll-track {
+    display: none;
+  }
+
+  [data-book-enhanced='true'] .business-book-stage {
+    position: sticky;
+    top: 76px;
+    height: var(--book-height);
+    min-height: 0;
+  }
+
+  [data-book-enhanced='true'] .business-book-frame {
+    position: relative;
+    display: block;
+    height: 100%;
+    perspective: 1500px;
+  }
+
+  [data-book-enhanced='true'] .business-book-spread {
+    position: absolute;
+    inset: 0;
+    min-height: 0;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate3d(0, 12px, 0) rotateY(7deg) scale(0.985);
+    transform-origin: center center;
+    transition: opacity 360ms ease, transform 520ms cubic-bezier(0.2, 0.75, 0.25, 1);
+    will-change: opacity, transform;
+  }
+
+  [data-book-enhanced='true'] .business-book-spread[data-state='active'] {
+    opacity: 1;
+    pointer-events: auto;
+    transform: none;
+  }
+
+  [data-book-enhanced='true'] .business-book-spread[data-state='before'] {
+    transform: translate3d(-2%, 0, 0) rotateY(-8deg) scale(0.985);
+  }
+
+  [data-book-enhanced='true'] .business-book-spread[data-state='after'] {
+    transform: translate3d(2%, 8px, 0) rotateY(8deg) scale(0.985);
+  }
+
+  [data-book-enhanced='true'] .business-book-scroll-track {
+    display: block;
+    margin-top: calc(-1 * var(--book-height));
+  }
+
+  [data-book-enhanced='true'] .business-book-scroll-step {
+    min-height: 100vh;
+  }
+
+  [data-book-jump='true'] .business-book-spread {
+    transition-duration: 650ms;
+  }
+
+  .business-book-contact-content {
+    display: grid;
+    gap: 16px;
+  }
+
+  .business-book-contact-form {
+    display: grid;
+    gap: 10px;
+    padding: 14px;
+    border: 1px solid rgba(40, 75, 112, 0.14);
+    border-radius: 10px;
+    background: #fff9ed;
+    box-shadow: 0 12px 28px rgba(40, 75, 112, 0.08);
+  }
+
+  .business-book-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .business-book-form-field {
+    display: grid;
+    gap: 5px;
+  }
+
+  .business-book-form-field label {
+    color: #284b70;
+    font-family: 'Andika', system-ui, sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .business-book-form-field label span {
+    color: #496583;
+    font-family: 'Atkinson Hyperlegible', system-ui, sans-serif;
+    font-size: 0.72rem;
+    font-weight: 400;
+  }
+
+  .business-book-form-field input,
+  .business-book-form-field textarea {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid rgba(40, 75, 112, 0.32);
+    border-radius: 6px;
+    background: #fffdf8;
+    color: #111827;
+    font: inherit;
+    font-size: 0.84rem;
+    line-height: 1.35;
+  }
+
+  .business-book-form-field input {
+    min-height: 34px;
+    padding: 6px 8px;
+  }
+
+  .business-book-form-field textarea {
+    min-height: 62px;
+    padding: 7px 8px;
+    resize: vertical;
+  }
+
+  .business-book-form-field input:focus,
+  .business-book-form-field textarea:focus {
+    border-color: #4f7773;
+    outline: 3px solid #78a49f;
+    outline-offset: 1px;
+  }
+
+  .business-book-submit {
+    min-height: 40px;
+    padding: 8px 13px;
+    border: 0;
+    border-radius: 999px;
+    background: #4f7773;
+    color: #fffdf8;
+    font-family: 'Andika', system-ui, sans-serif;
+    font-size: 0.84rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 160ms ease, transform 160ms ease;
+  }
+
+  .business-book-submit:hover {
+    background: #284b70;
+    transform: translateY(-1px);
+  }
+
+  .business-book-submit:focus-visible {
+    background: #284b70;
+    outline: 3px solid #78a49f;
+    outline-offset: 3px;
+    transform: translateY(-1px);
+  }
+
+  .business-book-submit:active {
+    transform: scale(0.98);
+  }
+
+  .business-book-form-status {
+    min-height: 1.2em;
+    margin: 0;
+    color: #496583;
+    font-size: 0.78rem;
+    line-height: 1.35;
+  }
+
+  .business-book-footer {
+    display: grid;
+    justify-items: center;
+    gap: 11px;
+    min-height: 210px;
+    box-sizing: border-box;
+    padding: 38px 24px 30px;
+    background: #fff9ed;
+    color: #284b70;
+    text-align: center;
+  }
+
+  .business-book-footer-logo {
+    display: block;
+    width: 56px;
+    height: auto;
+  }
+
+  .business-book-footer p {
+    margin: 0;
+  }
+
+  .business-book-footer nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Andika', system-ui, sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+
+  .business-book-footer nav a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .business-book-footer nav a:hover,
+  .business-book-footer nav a:focus-visible {
+    color: #78a49f;
+    outline: 3px solid #78a49f;
+    outline-offset: 3px;
+  }
+
+  .business-book-social-link {
+    display: inline-grid;
+    width: 34px;
+    height: 34px;
+    place-items: center;
+    border: 1px solid rgba(40, 75, 112, 0.24);
+    border-radius: 999px;
+    background: #fffdf8;
+  }
+
+  .business-book-social-link :global(svg) {
+    width: 18px;
+    height: 18px;
+  }
+
+  @media (max-width: 1200px) {
+    .business-book-rail-label {
+      display: none;
+    }
+
+    .business-book-rail a {
+      width: 28px;
+      justify-content: center;
+      padding-inline: 4px;
+    }
+  }
+
+  @media (min-width: 761px) and (max-width: 1200px) {
+    .business-book-stage {
+      width: calc(100% - 86px);
+      margin-left: 22px;
+      margin-right: 0;
+    }
+
+    .business-book-rail {
+      right: 6px;
+    }
+  }
+
+  @media (min-width: 1201px) {
+    .business-book-stage {
+      width: min(calc(100% - 240px), 1080px);
+      margin-left: max(24px, calc((100vw - 1280px) / 2 + 24px));
+      margin-right: 0;
+    }
+
+    .business-book-rail {
+      right: max(14px, calc((100vw - 1280px) / 2 + 14px));
+    }
+  }
+
+  @media (max-width: 760px) {
+    .business-book-top {
+      width: min(100% - 44px, 1160px);
+      padding-top: 24px;
+    }
+
+    .business-book-story {
+      padding-block: 26px 68px;
+    }
+
+    .business-book-stage {
+      width: min(100% - 44px, 1120px);
+    }
+
+    .business-book-frame {
+      gap: 26px;
+    }
+
+    .business-book-spread {
+      grid-template-columns: 1fr;
+      min-height: 0;
+    }
+
+    .business-book-page--left {
+      padding: 28px 22px 32px;
+    }
+
+    .business-book-page--left::after {
+      top: auto;
+      right: 22px;
+      bottom: 0;
+      left: 22px;
+      width: auto;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(40, 75, 112, 0.22), transparent);
+      box-shadow: 0 3px 10px rgba(40, 75, 112, 0.12);
+    }
+
+    .business-book-page--right {
+      min-height: 270px;
+      padding: 10px;
+    }
+
+    .business-book-page h1,
+    .business-book-page h2 {
+      font-size: clamp(1.85rem, 8vw, 2.45rem);
+    }
+
+    .business-book-list--uses {
+      grid-template-columns: 1fr;
+    }
+
+    .business-book-rail {
+      display: none;
+    }
+
+    .business-book-mobile-menu {
+      position: relative;
+      z-index: 8;
+      display: block;
+      width: min(100% - 44px, 1120px);
+      margin: 0 auto 16px;
+    }
+
+    .business-book-mobile-menu button {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 44px;
+      padding: 8px 13px;
+      border: 1px solid rgba(40, 75, 112, 0.2);
+      border-radius: 999px;
+      background: #fffdf8;
+      color: #284b70;
+      font-family: 'Andika', system-ui, sans-serif;
+      font-size: 0.92rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .business-book-mobile-menu button:hover,
+    .business-book-mobile-menu button:focus-visible {
+      border-color: #78a49f;
+      outline: 3px solid #78a49f;
+      outline-offset: 3px;
+    }
+
+    .business-book-mobile-menu nav {
+      margin-top: 8px;
+      padding: 10px;
+      border: 1px solid rgba(40, 75, 112, 0.14);
+      border-radius: 10px;
+      background: rgba(255, 253, 248, 0.98);
+      box-shadow: 0 14px 34px rgba(40, 75, 112, 0.12);
+    }
+
+    .business-book-mobile-menu a {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      padding: 8px 5px;
+      color: #284b70;
+      font-family: 'Andika', system-ui, sans-serif;
+      font-size: 0.9rem;
+      text-decoration: none;
+    }
+
+    .business-book-mobile-menu a[aria-current='step'] {
+      color: #4f7773;
+      font-weight: 700;
+    }
+
+    .business-book-mobile-menu a:focus-visible {
+      border-radius: 4px;
+      outline: 3px solid #78a49f;
+      outline-offset: 2px;
+    }
+
+    .business-book-form-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(html) {
+      scroll-behavior: auto;
+    }
+
+    .business-book-rail a,
+    .business-book-submit,
+    .business-book-mobile-menu button {
+      transition: none;
+    }
+
+    [data-book-enhanced='true'] .business-book-spread {
+      transition: none;
+      transform: none !important;
+    }
+
+    [data-book-enhanced='true'] .business-book-turn-sheet {
+      display: none;
+    }
+  }
+</style>
