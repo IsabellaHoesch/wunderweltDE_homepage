@@ -111,7 +111,7 @@ export const businessContent: Record<'de' | 'en', BusinessContentStrings> = {
           title: 'Individuelles Wimmelbuch',
           text: 'Ihre Zimmer, Erlebnisbereiche, Angebote und Maskottchen werden Teil einer detailreichen Wimmelwelt mit kleinen Geschichten und Suchaufgaben.',
           visualAlt:
-            'Illustration einer detailreichen Familienhotel-Wimmelwelt mit Bergen, Pool, Kindern und einer freundlichen Ziege',
+            'Detailreiche Familienhotel-Wimmelwelt mit vier Shetlandponys, Eiswagen, Karussell, Naturbadeteich und vielen Familien',
         },
         {
           title: 'Eigene Markengeschichte',
@@ -143,7 +143,6 @@ export const businessContent: Record<'de' | 'en', BusinessContentStrings> = {
       heading: 'So entsteht Ihre individuelle Hotelwelt',
       text: [
         'Jedes Projekt wird individuell entwickelt. Wir können auf bestehenden Markenwelten aufbauen oder einen passenden Illustrationsstil für Ihr Hotel entwickeln.',
-        'Dabei integrieren wir die Besonderheiten Ihres Hauses – Räume, Maskottchen, Aktivitäten, Lieblingsorte und besondere Angebote – in eine persönliche Geschichte für Ihre Familiengäste.',
       ],
       processLabel: 'Ablauf der individuellen Entwicklung',
       steps: [
@@ -285,7 +284,7 @@ export const businessContent: Record<'de' | 'en', BusinessContentStrings> = {
           title: 'Custom seek-and-find book',
           text: 'Your rooms, experience areas, services, and mascots become part of a richly detailed world with small stories and search activities.',
           visualAlt:
-            'Illustration of a detailed family-hotel seek-and-find world with mountains, a pool, children, and a friendly goat',
+            'Detailed family-hotel seek-and-find world with four Shetland ponies, an ice-cream cart, carousel, natural swimming pond, and families',
         },
         {
           title: 'Original brand story',
